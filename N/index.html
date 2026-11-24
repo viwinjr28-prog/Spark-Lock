@@ -3143,7 +3143,11 @@ function reloadVisualIcons() {
             head.insertAdjacentHTML('afterend',
                 '<div class="s-cap">Editions</div><div class="s-card" id="editionCard"><div class="s-row"><div class="s-l"><div class="s-lab">Edition code</div><div class="s-sub">Have a code? Enter it to get the link to another edition of SparkOS.</div></div>'
                 + '<div class="s-c"><input type="text" class="s-input mono" id="editionCode" placeholder="Code" maxlength="8" autocomplete="off" onkeydown="if(event.key===\'Enter\') redeemCode()"><button type="button" class="s-btn primary" onclick="redeemCode()">Redeem</button></div></div>'
-                + '<div class="s-row" id="editionMsgRow" style="display:none"><div class="s-sub" id="editionMsg"></div></div></div>');
+                + '<div class="s-row" id="editionMsgRow" style="display:none"><div class="s-sub" id="editionMsg"></div></div>'
+                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Beta</div><div class="s-sub">Preview build · Code 1111</div></div><div class="s-c"><a class="s-btn primary" href="https://spark-lock.vercel.app/B/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
+                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Founders</div><div class="s-sub">Full edition · Code 2828</div></div><div class="s-c"><a class="s-btn primary" href="https://spark-lock.vercel.app/F/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
+                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Christmas 2026</div><div class="s-sub">Limited holiday edition · Code XMAS</div></div><div class="s-c"><a class="s-btn primary" href="https://spark-lock.vercel.app/Christmas%202026/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
+                + '</div>');
         }
         if (IS_FOUNDER && !document.getElementById('founderEditionsCard')) {
             const head = document.getElementById('pane-system').querySelector('.s-head');
