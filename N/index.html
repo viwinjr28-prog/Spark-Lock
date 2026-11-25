@@ -34,6 +34,66 @@
             border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 30px;
         }
         .boot-branding { position: absolute; bottom: 40px; font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, 0.3); letter-spacing: 1px; text-transform: uppercase; }
+        /* Boot & Workspace Animations (8 each + Preview Windows) */
+        .boot-win-grid { display: none; grid-template-columns: 1fr 1fr; gap: 4px; width: 44px; height: 44px; margin-bottom: 18px; }
+        .boot-win-grid span { background: #38bdf8; border-radius: 3px; box-shadow: 0 0 14px rgba(56,189,248,0.55); }
+        .boot-screen[data-anim="windows"] .boot-win-grid { display: grid; animation: winBloom 0.7s ease-out; }
+        .boot-screen[data-anim="windows"] .boot-logo { font-size: 2.2rem; letter-spacing: -0.5px; margin-bottom: 16px; }
+        @keyframes winBloom { 0% { transform: scale(0.72); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .boot-screen.boot-out { pointer-events: none; transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), clip-path 0.45s ease, filter 0.45s ease, visibility 0.45s; }
+        .boot-screen.boot-out[data-anim="fade"] { opacity: 0; }
+        .boot-screen.boot-out[data-anim="windows"] { opacity: 0; transform: scale(1.12); filter: blur(8px); }
+        .boot-screen.boot-out[data-anim="zoom"] { opacity: 0; transform: scale(1.28); }
+        .boot-screen.boot-out[data-anim="slideUp"] { opacity: 0; transform: translateY(-100%); }
+        .boot-screen.boot-out[data-anim="curtain"] { opacity: 0; clip-path: inset(50% 0 50% 0); }
+        .boot-screen.boot-out[data-anim="ripple"] { opacity: 0; clip-path: circle(0% at 50% 50%); }
+        .boot-screen.boot-out[data-anim="wipe"] { opacity: 0; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        .boot-screen.boot-out[data-anim="warp"] { opacity: 0; transform: scale(0.4) rotate(6deg); filter: blur(12px); }
+
+        .brand-container, .dock-wrapper, #wLeft, #wRight { transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease, filter 0.25s ease; }
+        html.ws-anim-out[data-ws-anim="windows"] .brand-container, html.ws-anim-out[data-ws-anim="windows"] .dock-wrapper { transform: scale(0.92) translateY(12px); opacity: 0; filter: blur(6px); }
+        html.ws-anim-out[data-ws-anim="slide"] .brand-container, html.ws-anim-out[data-ws-anim="slide"] .dock-wrapper { transform: translateY(-28px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="slideH"] .brand-container, html.ws-anim-out[data-ws-anim="slideH"] .dock-wrapper { transform: translateX(-44px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="zoom"] .brand-container, html.ws-anim-out[data-ws-anim="zoom"] .dock-wrapper { transform: scale(1.08); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="flip"] .brand-container { transform: perspective(900px) rotateY(22deg) scale(0.94); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="blur"] .brand-container, html.ws-anim-out[data-ws-anim="blur"] .dock-wrapper { filter: blur(18px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="curtain"] .ws-fade.show { background: radial-gradient(circle, rgba(var(--accent-rgb), 0.35), rgba(2,6,23,0.92)); }
+
+        .anim-eg-wrap { width: 100%; display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
+        .anim-eg-win {
+            position: relative; width: 100%; height: 118px; border-radius: 14px; overflow: hidden;
+            background: radial-gradient(circle at 75% 25%, rgba(var(--accent-rgb), 0.32), #080d1e 72%);
+            border: 1px solid rgba(255,255,255,0.16); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .anim-eg-badge { position: absolute; top: 8px; left: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: rgba(255,255,255,0.62); z-index: 3; }
+        .anim-eg-hint { position: absolute; bottom: 7px; right: 10px; font-size: 10px; color: rgba(255,255,255,0.5); z-index: 3; }
+        .anim-eg-desk { display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.38s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .anim-eg-desk b { font-size: 15px; color: #fff; }
+        .anim-eg-desk span { font-size: 10px; color: rgba(255,255,255,0.65); padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.1); }
+        .anim-eg-boot {
+            position: absolute; inset: 0; background: #020617; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; z-index: 2;
+            transition: opacity 0.42s ease, transform 0.42s cubic-bezier(0.2,0.8,0.2,1), clip-path 0.42s ease, filter 0.42s ease;
+        }
+        .anim-eg-boot .mini-win { display: none; grid-template-columns: 1fr 1fr; gap: 2px; width: 18px; height: 18px; }
+        .anim-eg-boot .mini-win i { background: #38bdf8; border-radius: 1px; display: block; }
+        .anim-eg-boot[data-anim="windows"] .mini-win { display: grid; }
+        .anim-eg-boot.out[data-anim="fade"] { opacity: 0; }
+        .anim-eg-boot.out[data-anim="windows"] { opacity: 0; transform: scale(1.15); filter: blur(5px); }
+        .anim-eg-boot.out[data-anim="zoom"] { opacity: 0; transform: scale(1.3); }
+        .anim-eg-boot.out[data-anim="slideUp"] { opacity: 0; transform: translateY(-100%); }
+        .anim-eg-boot.out[data-anim="curtain"] { opacity: 0; clip-path: inset(50% 0 50% 0); }
+        .anim-eg-boot.out[data-anim="ripple"] { opacity: 0; clip-path: circle(0% at 50% 50%); }
+        .anim-eg-boot.out[data-anim="wipe"] { opacity: 0; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        .anim-eg-boot.out[data-anim="warp"] { opacity: 0; transform: scale(0.35) rotate(8deg); filter: blur(8px); }
+        .anim-eg-ws.out[data-anim="fade"] { opacity: 0; }
+        .anim-eg-ws.out[data-anim="windows"] { opacity: 0; transform: scale(0.84) translateY(10px); filter: blur(4px); }
+        .anim-eg-ws.out[data-anim="slide"] { opacity: 0; transform: translateY(-26px); }
+        .anim-eg-ws.out[data-anim="slideH"] { opacity: 0; transform: translateX(-36px); }
+        .anim-eg-ws.out[data-anim="zoom"] { opacity: 0; transform: scale(1.16); }
+        .anim-eg-ws.out[data-anim="flip"] { opacity: 0; transform: perspective(400px) rotateY(32deg) scale(0.9); }
+        .anim-eg-ws.out[data-anim="blur"] { opacity: 0; filter: blur(12px); }
+        .anim-eg-ws.out[data-anim="curtain"] { opacity: 0; transform: scale(0.92); filter: drop-shadow(0 0 12px var(--accent)); }
 
         .safari-navbar {
             position: absolute; top: 40px; width: 55%; min-width: 400px;
@@ -551,6 +611,54 @@
         html.lg-off .ws-rail { backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%); background-image: none; background-color: rgba(20,24,38,0.65); }
         html.lg-off .ws-rail::before { display: none; }
         html.locked .ws-rail { display: none !important; }
+        .ws-rail { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease; }
+        html.ws-autohide:not(.ws-peek) .ws-rail { transform: translate(-110px, -50%); opacity: 0; pointer-events: none; }
+        html.ws-autohide:not(.ws-peek) { --ws-col-left: 24px; }
+        .ws-hot { position: fixed; left: 0; top: 15%; bottom: 15%; width: 24px; z-index: 955; display: none; }
+        html.ws-autohide .ws-hot { display: block; }
+        .ws-item.ws-dragging { opacity: 0.4; transform: scale(0.92); }
+        .ws-item.ws-drop-t { box-shadow: 0 -3px 0 0 #fff, inset 0 1px 0 rgba(255,255,255,0.18); }
+        .ws-item.ws-drop-b { box-shadow: 0 3px 0 0 #fff, inset 0 1px 0 rgba(255,255,255,0.18); }
+        .ws-peek-card {
+            position: fixed; z-index: 975; pointer-events: none; opacity: 0;
+            transform: translateX(-6px) scale(0.96);
+            transition: opacity 0.16s ease, transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 9px 13px; border-radius: 14px; min-width: 150px; color: #fff;
+            background: rgba(18, 22, 38, 0.86); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 14px 34px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+            display: flex; flex-direction: column; gap: 3px;
+        }
+        .ws-peek-card.show { opacity: 1; transform: translateX(0) scale(1); }
+        .ws-peek-card b { font-size: 13px; font-weight: 700; color: #fff; }
+        .ws-peek-card span { font-size: 11px; color: rgba(255,255,255,0.68); }
+        .upd-log { display: none; flex-direction: column; gap: 10px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .upd-log.open { display: flex; }
+        .upd-log-ver { font-size: 12px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .upd-log-ver span { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; background: rgba(var(--accent-rgb), 0.22); color: #fff; border: 1px solid rgba(var(--accent-rgb), 0.45); }
+        .upd-log ul { margin: 4px 0 0 16px; padding: 0; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.75); }
+        /* Animate everything */
+        .settings-overlay { transition: opacity 0.24s ease, visibility 0.24s ease; }
+        .settings-win { transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.15), opacity 0.24s ease; transform: scale(0.95) translateY(10px); opacity: 0; }
+        .settings-overlay.open .settings-win { transform: scale(1) translateY(0); opacity: 1; }
+        .s-pane.active { animation: paneIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes paneIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .s-btn, .s-nav, .s-app, .widget, .ctx-menu, .folder-pop, .pal-win { transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.18s ease, border-color 0.18s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
+        .s-btn:active { transform: scale(0.96); }
+        .ctx-menu, .folder-pop { animation: popIn 0.16s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+        .upd-log.open { animation: paneIn 0.2s ease; }
+        .onboard-overlay { position: fixed; inset: 0; z-index: 6500; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 30% 20%, rgba(var(--accent-rgb), 0.24), rgba(6, 9, 20, 0.92) 70%); backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%); color: #fff; }
+        .onboard-overlay.show { display: flex; }
+        .onboard-card { width: 100%; max-width: 400px; padding: 26px 24px; border-radius: 26px; background: rgba(var(--accent-rgb), 0.10); background-image: linear-gradient(160deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.04) 48%, rgba(255,255,255,0.10) 100%); backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%); border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 24px 60px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.42); display: flex; flex-direction: column; gap: 14px; }
+        .onboard-card h2 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+        .onboard-card p { margin: 0; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,0.78); }
+        .onboard-field { display: flex; flex-direction: column; gap: 6px; }
+        .onboard-field label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); }
+        .onboard-field input { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.22); background: rgba(0,0,0,0.28); color: #fff; font-size: 18px; letter-spacing: 6px; text-align: center; outline: none; }
+        .onboard-field input:focus { border-color: rgba(var(--accent-rgb), 0.9); }
+        .onboard-err { min-height: 16px; font-size: 12px; color: #fca5a5; }
+        .onboard-box { padding: 12px 14px; border-radius: 16px; background: rgba(0,0,0,0.24); border: 1px solid rgba(255,255,255,0.14); display: flex; flex-direction: column; gap: 10px; }
+        .onboard-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; }
         .ws-list {
             display: flex; flex-direction: column; align-items: center; gap: 8px;
             width: 100%; padding: 6px 0; overflow-y: auto; overflow-x: visible; scrollbar-width: none;
@@ -790,6 +898,31 @@
         </defs>
     </svg>
     
+    <div class="onboard-overlay" id="onboardOverlay" aria-hidden="true">
+        <div class="onboard-card" id="obStepPin">
+            <h2>Welcome to SparkOS</h2>
+            <p>Set a 4-digit PIN on first boot to protect your system and Home workspace.</p>
+            <div class="onboard-field">
+                <label for="obPin1">Choose 4-digit PIN</label>
+                <input type="password" id="obPin1" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+            </div>
+            <div class="onboard-field">
+                <label for="obPin2">Confirm 4-digit PIN</label>
+                <input type="password" id="obPin2" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter') submitOnboardPin()">
+            </div>
+            <div class="onboard-err" id="obErr"></div>
+            <button type="button" class="s-btn primary" onclick="submitOnboardPin()">Save PIN &amp; Continue</button>
+        </div>
+        <div class="onboard-card" id="obStepPrivacy" style="display:none">
+            <h2>Lock &amp; Privacy</h2>
+            <p>Your 4-digit PIN is saved locally as a hash. Modifying the Home workspace now requires your PIN.</p>
+            <div class="onboard-box">
+                <div class="onboard-row"><span>Require unlock on open</span><label class="sw"><input type="checkbox" id="obLockOn" checked onchange="toggleLockEnabled(this.checked)"><span></span></label></div>
+                <div class="onboard-row" id="obBioRow" style="display:none"><span>Touch ID / Face ID</span><button type="button" class="s-btn" onclick="setupBiometric()">Set up…</button></div>
+            </div>
+            <button type="button" class="s-btn primary" onclick="finishOnboarding()">Continue to SparkOS</button>
+        </div>
+    </div>
     <div class="lock-overlay" id="lockOverlay" aria-hidden="true">
         <div class="lock-logo">SparkOS</div>
         <div class="lock-sub" id="lockSub">Private · enter your PIN</div>
@@ -811,6 +944,7 @@
     </div>
 
     <div class="boot-screen" id="bootScreen">
+        <div class="boot-win-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="boot-logo">SparkOS</div>
         <div class="boot-edition" id="bootEdition"></div>
         <div class="boot-spinner"></div>
@@ -820,6 +954,8 @@
     <aside class="ws-rail" id="wsRail" aria-label="Workspaces">
         <div class="ws-list" id="wsList"></div>
     </aside>
+    <div class="ws-hot" id="wsHot" aria-hidden="true"></div>
+    <div class="ws-peek-card" id="wsPeekCard" aria-hidden="true"><b id="wsPeekName"></b><span id="wsPeekMeta"></span></div>
     <div class="ws-fade" id="wsFade" aria-hidden="true"></div>
     <div class="ws-icon-pop" id="wsIconPop" oncontextmenu="return false"></div>
     <div class="upd-card" id="updCard" role="status" aria-live="polite">
@@ -828,7 +964,7 @@
             <div class="upd-title" id="updTitle">Your Spark Has Updated</div>
             <div class="upd-sub" id="updSub"></div>
         </div>
-        <button type="button" class="upd-close" onclick="closeUpdateBanner()">OK</button>
+        <button type="button" class="upd-close" style="background:rgba(255,255,255,0.12);color:#fff" onclick="openUpdateLog()">Log</button><button type="button" class="upd-close" onclick="closeUpdateBanner()">OK</button>
     </div>
 
     <div class="safari-navbar" id="safariNavbar"><input type="text" class="safari-url-field" id="omnibar" placeholder="Search Google or type a web address..." autocomplete="off" oninput="onOmnibarType()" onfocus="onOmnibarType()" onkeydown="handleOmnibarInput(event)"><div class="omni-suggest" id="omniSuggest"></div></div>
@@ -953,7 +1089,7 @@
             <aside class="s-side">
                 <div class="s-lights"><button type="button" class="light" title="Close" onclick="closeSettings()"></button><span class="edition-pill" id="editionPill"></span></div>
                 <input type="text" class="s-search" id="sSearch" placeholder="Search settings" oninput="filterSettings()">
-                <nav class="s-navlist"><div class="s-group"><div class="s-nav" data-pane="appearance" data-kw="appearance colour accent theme tint glass icon shape"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></div><span class="l">Appearance</span></div><div class="s-nav" data-pane="type" data-kw="fonts font typeface text custom upload cursor cursors pointer mouse"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7V5h14v2M12 5v14M9 19h6"/></svg></div><span class="l">Fonts &amp; Cursor</span></div><div class="s-nav" data-pane="wallpaper" data-kw="wallpaper background image dim preset"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><span class="l">Wallpaper</span></div><div class="s-nav" data-pane="home" data-kw="home screen title clock greeting name time date"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><span class="l">Home Screen</span></div><div class="s-nav" data-pane="dock" data-kw="dock opacity size hide hover"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><span class="l">Dock</span></div></div><div class="s-group"><div class="s-nav" data-pane="apps" data-kw="apps add rename delete reorder logo folder folders group divider separator"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><span class="l">Apps</span></div><div class="s-nav" data-pane="search" data-kw="search engine google duckduckgo bing safe tab"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><span class="l">Search</span></div><div class="s-nav" data-pane="shortcuts" data-kw="shortcuts keyboard keys hotkeys"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><span class="l">Shortcuts</span></div></div><div class="s-group"><div class="s-nav" data-pane="fun" data-kw="effects & fun snow stars rain confetti bounce sounds surprise"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><span class="l">Effects & Fun</span></div><div class="s-nav" data-tier="2" data-pane="themes" data-kw="themes save look preset styles"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4a4.6 4.6 0 0 0 4.6-4.6C22 6 17.5 2 12 2z"/></svg></div><span class="l">Themes</span></div><div class="s-nav" data-pane="widgets" data-kw="widgets notes timer pomodoro focus todo tasks calendar weather quote"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><span class="l">Widgets</span></div></div><div class="s-group"><div class="s-nav" data-pane="workspaces" data-kw="workspaces spaces profile home work rename add delete pin"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><span class="l">Workspaces</span></div><div class="s-nav" data-pane="system" data-kw="system backup export import reset about"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><span class="l">System</span></div></div><div class="s-none" id="sNone">No matches</div></nav>
+                <nav class="s-navlist"><div class="s-group"><div class="s-nav" data-pane="appearance" data-kw="appearance colour accent theme tint glass icon shape"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></div><span class="l">Appearance</span></div><div class="s-nav" data-pane="type" data-kw="fonts font typeface text custom upload cursor cursors pointer mouse"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7V5h14v2M12 5v14M9 19h6"/></svg></div><span class="l">Fonts &amp; Cursor</span></div><div class="s-nav" data-pane="wallpaper" data-kw="wallpaper background image dim preset"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><span class="l">Wallpaper</span></div><div class="s-nav" data-pane="home" data-kw="home screen title clock greeting name time date"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><span class="l">Home Screen</span></div><div class="s-nav" data-pane="dock" data-kw="dock opacity size hide hover"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><span class="l">Dock</span></div></div><div class="s-group"><div class="s-nav" data-pane="apps" data-kw="apps add rename delete reorder logo folder folders group divider separator"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><span class="l">Apps</span></div><div class="s-nav" data-pane="search" data-kw="search engine google duckduckgo bing safe tab"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><span class="l">Search</span></div><div class="s-nav" data-pane="shortcuts" data-kw="shortcuts keyboard keys hotkeys"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><span class="l">Shortcuts</span></div></div><div class="s-group"><div class="s-nav" data-pane="fun" data-kw="effects & fun animations boot workspace windows snow stars rain confetti bounce sounds surprise"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><span class="l">Effects & Fun</span></div><div class="s-nav" data-tier="2" data-pane="themes" data-kw="themes save look preset styles"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4a4.6 4.6 0 0 0 4.6-4.6C22 6 17.5 2 12 2z"/></svg></div><span class="l">Themes</span></div><div class="s-nav" data-pane="widgets" data-kw="widgets notes timer pomodoro focus todo tasks calendar weather quote"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><span class="l">Widgets</span></div></div><div class="s-group"><div class="s-nav" data-pane="workspaces" data-kw="workspaces spaces profile home work rename add delete pin"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><span class="l">Workspaces</span></div><div class="s-nav" data-pane="system" data-kw="system backup export import reset about update log changelog"><div class="s-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><span class="l">System</span></div></div><div class="s-none" id="sNone">No matches</div></nav>
             </aside>
             <main class="s-main"><section class="s-pane" id="pane-appearance"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></div><h2>Appearance</h2></div><div class="s-cap">Colour</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Accent colour</div><div class="s-sub">Tints buttons, glows and the dock</div></div><div class="s-c"><div class="swatches"><button type="button" class="swatch" style="background:#7c3aed" title="#7c3aed" onclick="applyAccent('#7c3aed')"></button><button type="button" class="swatch" style="background:#3b82f6" title="#3b82f6" onclick="applyAccent('#3b82f6')"></button><button type="button" class="swatch" style="background:#06b6d4" title="#06b6d4" onclick="applyAccent('#06b6d4')"></button><button type="button" class="swatch" style="background:#10b981" title="#10b981" onclick="applyAccent('#10b981')"></button><button type="button" class="swatch" style="background:#f59e0b" title="#f59e0b" onclick="applyAccent('#f59e0b')"></button><button type="button" class="swatch" style="background:#f97316" title="#f97316" onclick="applyAccent('#f97316')"></button><button type="button" class="swatch" style="background:#ef4444" title="#ef4444" onclick="applyAccent('#ef4444')"></button><button type="button" class="swatch" style="background:#ec4899" title="#ec4899" onclick="applyAccent('#ec4899')"></button></div></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Hex code</div></div><div class="s-c"><input type="text" class="s-input mono" id="accentHex" placeholder="#7c3aed" maxlength="7" oninput="accentFromHexField()" onkeydown="if(event.key==='Enter') accentFromHexField(true)"><input type="color" class="s-color" id="accentPicker" value="#7c3aed" oninput="applyAccent(this.value)"></div></div></div><div class="s-cap">Style</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Icon style</div><div class="s-sub">Clear turns logos into translucent liquid glass, like iOS Clear icons</div></div><div class="s-c"><div class="seg" data-s="iconStyle"><button type="button" data-val="default">Default</button><button type="button" data-val="clear" data-tier="1">Clear glass</button><button type="button" data-val="clearAccent" data-tier="2">Glass + accent</button></div></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Icon tint</div><div class="s-sub">Two-tone icons that match your look (not used in Clear styles)</div></div><div class="s-c"><div class="seg" data-s="tint"><button type="button" data-val="wallpaper">Wallpaper</button><button type="button" data-val="accent">Accent</button><button type="button" data-val="off">Off</button></div></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Icon shape</div></div><div class="s-c"><div class="seg" data-s="iconShape"><button type="button" data-val="squircle">Rounded</button><button type="button" data-val="circle">Circle</button><button type="button" data-val="square">Square</button></div></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Liquid Glass</div><div class="s-sub">Frosted, light-catching surfaces</div></div><div class="s-c"><label class="sw"><input type="checkbox" id="lgSwitch" onchange="toggleLiquidGlass()"><span></span></label></div></div>
 <div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">Secondary accent</div><div class="s-sub">A second colour for glows and highlights (Founders)</div></div><div class="s-c"><input type="color" class="s-color" id="accent2Picker" value="#22d3ee" oninput="applyAccent2(this.value)"><input type="text" class="s-input mono" id="accent2Hex" placeholder="#22d3ee" maxlength="7" onkeydown="if(event.key==='Enter')applyAccent2(this.value)"></div></div>
@@ -972,10 +1108,15 @@
 <div class="s-row"><div class="s-l"><div class="s-lab">Your own cursor</div><div class="s-sub">PNG, GIF, WebP, SVG or .cur · scaled to the size above · stays on this device</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('cursorFile').click()">Choose image…</button><button type="button" class="s-btn danger" id="cursorRemove" style="display:none" onclick="removeCustomCursor()">Remove</button><input type="file" id="cursorFile" accept="image/*,.cur" hidden onchange="pickCustomCursor(this.files[0]); this.value=''"></div></div>
 <div class="s-row"><div class="s-l"><div class="s-lab">Click point</div><div class="s-sub">Where your own cursor actually clicks</div></div><div class="s-c"><div class="seg" data-s="cursorHot"><button type="button" data-val="tl">Top-left</button><button type="button" data-val="center">Centre</button></div></div></div>
 </div>
-</section><section class="s-pane" id="pane-wallpaper"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><h2>Wallpaper</h2></div><div class="s-cap">Backgrounds</div><div class="s-card pad"><div class="presets" id="presetGrid"></div></div><div class="s-cap">Custom</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Custom image</div></div><div class="s-c"><input type="text" class="s-input wide" id="bgInput" placeholder="Paste an image link…"><button type="button" class="s-btn" onclick="applyCustomWallpaper()">Apply</button></div></div><div class="s-row" id="wallNoteRow" style="display:none"><div class="s-sub" id="wallNote"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">From your computer</div><div class="s-sub">Full quality · stays on this device (not in backups)</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('wallFile').click()">Choose image…</button><input type="file" id="wallFile" accept="image/*" hidden onchange="pickLocalWallpaper(this.files[0]); this.value=''"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Accent glow</div><div class="s-sub">A soft colour wash over the wallpaper. Turn off for the purest image.</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="accentGlow"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dim wallpaper</div><div class="s-sub">Darken the background for readability</div></div><div class="s-c"><input type="range" class="s-range" data-s="wallDim" data-unit="%" min="0" max="70"><span class="s-val" id="v_wallDim"></span></div></div></div></section><section class="s-pane" id="pane-home"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h2>Home Screen</h2></div><div class="s-cap">Text</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Title</div></div><div class="s-c"><input type="text" class="s-input" id="titleInput" placeholder="SparkOS" oninput="applyCustomTitle()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Greeting</div><div class="s-sub">e.g. “Good evening, Sam”</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="greeting"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Your name</div></div><div class="s-c"><input type="text" class="s-input" data-s="userName" placeholder="Optional" maxlength="20"></div></div></div><div class="s-cap">Clock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">24-hour clock</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="clock24"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show seconds</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showSeconds"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show date</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showDate"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Clock size</div></div><div class="s-c"><input type="range" class="s-range" data-s="clockSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_clockSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Title size</div></div><div class="s-c"><input type="range" class="s-range" data-s="titleSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_titleSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show title</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showTitle"><span></span></label></div></div></div></section><section class="s-pane" id="pane-dock"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><h2>Dock</h2></div><div class="s-cap">Dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Dock opacity</div></div><div class="s-c"><input type="range" class="s-range" id="dockOpacity" min="10" max="100" value="15" oninput="adjustDock()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock size</div></div><div class="s-c"><input type="range" class="s-range" id="dockScale" min="70" max="130" value="100" oninput="adjustDock()"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Auto-hide dock</div><div class="s-sub">Slides away; move your mouse to the bottom edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoHide"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lift icons on hover</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="hoverLift"><span></span></label></div></div></div></section><section class="s-pane" id="pane-apps"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><h2>Apps</h2></div><div class="s-cap">Add an app</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div></div><div class="s-c"><input type="text" class="s-input wide" id="appName" placeholder="e.g. Roblox"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Website</div><div class="s-sub">Logo is fetched automatically</div></div><div class="s-c"><input type="text" class="s-input wide" id="appUrl" placeholder="Optional — e.g. roblox.com"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Add to</div><div class="s-sub">Put it straight into a folder</div></div><div class="s-c"><select class="s-select" id="appFolderSel"></select></div></div><div class="s-row end"><button type="button" class="s-btn primary" onclick="sysAddApp()">Add App</button></div></div><div class="s-cap">Organise</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Folders</div><div class="s-sub">Group apps into one tidy icon in the dock</div></div><div class="s-c"><button type="button" class="s-btn" onclick="newFolder()">New folder…</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Dividers</div><div class="s-sub">A thin line that separates groups, like the one before the ⋮ button</div></div><div class="s-c"><button type="button" class="s-btn" onclick="addDivider()">Add divider</button></div></div></div><div class="s-cap">Your dock <span class="hint">· reorder, rename, group or delete</span></div><div class="s-card" id="appList"></div></section><section class="s-pane" id="pane-search"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><h2>Search</h2></div><div class="s-cap">Search bar</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Search engine</div></div><div class="s-c"><select class="s-select" data-s="engine"><option value="google">Google</option><option value="ddg">DuckDuckGo</option><option value="bing">Bing</option><option value="brave">Brave</option><option value="youtube">YouTube</option><option value="custom">Custom…</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Search recommendations</div><div class="s-sub">Show live Google suggestions, recent searches, and matching apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="searchSuggest"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Custom search URL</div><div class="s-sub">Pick “Custom…” above. Use %s where the search words go.</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="customEngine" placeholder="https://example.com/search?q=%s"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Custom search bangs</div><div class="s-sub">Type @tag + query in search (use %s for search words)</div></div><div class="s-c"><input type="text" class="s-input" id="bangTagIn" placeholder="@rbx" maxlength="10" style="width:74px"><input type="text" class="s-input wide" id="bangUrlIn" placeholder="https://www.roblox.com/discover/?Keyword=%s"><button type="button" class="s-btn primary" onclick="addCustomBang()">Add</button></div></div><div class="s-row" id="bangListRow" style="display:none"><div class="bang-list" id="bangList"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Safe search</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="safeSearch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open links in a new tab</div><div class="s-sub">Applies to searches and apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="newTab"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Start on the search bar</div><div class="s-sub">Ready to type when SparkOS opens, and typing anywhere jumps to it</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoFocus"><span></span></label></div></div></div></section><section class="s-pane" id="pane-shortcuts"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><h2>Shortcuts</h2></div><div class="s-cap">Keyboard</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Enable keyboard shortcuts</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="shortcuts"><span></span></label></div></div></div><div class="s-cap">Reference</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Focus the search bar</div></div><div class="s-c"><kbd>/</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Launch app 1 – 9</div></div><div class="s-c"><kbd>Alt</kbd><kbd>1–9</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open Settings</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>,</kbd></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">Command palette</div><div class="s-sub">Jump to any app, setting or action</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>K</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Close menus</div></div><div class="s-c"><kbd>Esc</kbd></div></div></div></section><section class="s-pane" id="pane-fun"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><h2>Effects & Fun</h2></div><div class="s-cap">Ambience</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Background effect</div></div><div class="s-c"><select class="s-select" data-s="effect"><option value="none">None</option><option value="snow">Snow</option><option value="stars">Twinkling stars</option><option value="fireflies">Fireflies</option><option value="rain">Rain</option><option value="bubbles">Bubbles</option><option value="aurora">Aurora</option><option value="meteors">Meteor shower</option><option value="matrix">Digital rain</option><option value="embers">Embers</option><option value="petals">Cherry blossoms</option><option value="sparkles">Sparkles</option><option value="ornaments">Ornaments</option><option value="orbit">Orbit</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Effect amount</div></div><div class="s-c"><input type="range" class="s-range" data-s="effectAmount" data-unit="%" min="10" max="100"><span class="s-val" id="v_effectAmount"></span></div></div></div><div class="s-cap">Playful</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Confetti on launch</div><div class="s-sub">A little burst when you open an app</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="confetti"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock bounce on launch</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="bounce"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Click sounds</div><div class="s-sub">Soft blips when you launch apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="sounds"><span></span></label></div></div></div><div class="s-cap">Feeling lucky?</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Surprise me</div><div class="s-sub">Random accent, wallpaper and effect</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="surpriseMe()">Shuffle my look</button></div></div></div></section><section class="s-pane" id="pane-themes"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4a4.6 4.6 0 0 0 4.6-4.6C22 6 17.5 2 12 2z"/></svg></div><h2>Themes</h2></div>
+</section><section class="s-pane" id="pane-wallpaper"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><h2>Wallpaper</h2></div><div class="s-cap">Backgrounds</div><div class="s-card pad"><div class="presets" id="presetGrid"></div></div><div class="s-cap">Custom</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Custom image</div></div><div class="s-c"><input type="text" class="s-input wide" id="bgInput" placeholder="Paste an image link…"><button type="button" class="s-btn" onclick="applyCustomWallpaper()">Apply</button></div></div><div class="s-row" id="wallNoteRow" style="display:none"><div class="s-sub" id="wallNote"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">From your computer</div><div class="s-sub">Full quality · stays on this device (not in backups)</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('wallFile').click()">Choose image…</button><input type="file" id="wallFile" accept="image/*" hidden onchange="pickLocalWallpaper(this.files[0]); this.value=''"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Accent glow</div><div class="s-sub">A soft colour wash over the wallpaper. Turn off for the purest image.</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="accentGlow"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dim wallpaper</div><div class="s-sub">Darken the background for readability</div></div><div class="s-c"><input type="range" class="s-range" data-s="wallDim" data-unit="%" min="0" max="70"><span class="s-val" id="v_wallDim"></span></div></div></div></section><section class="s-pane" id="pane-home"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h2>Home Screen</h2></div><div class="s-cap">Text</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Title</div></div><div class="s-c"><input type="text" class="s-input" id="titleInput" placeholder="SparkOS" oninput="applyCustomTitle()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Greeting</div><div class="s-sub">e.g. “Good evening, Sam”</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="greeting"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Your name</div></div><div class="s-c"><input type="text" class="s-input" data-s="userName" placeholder="Optional" maxlength="20"></div></div></div><div class="s-cap">Clock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">24-hour clock</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="clock24"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show seconds</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showSeconds"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show date</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showDate"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Clock size</div></div><div class="s-c"><input type="range" class="s-range" data-s="clockSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_clockSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Title size</div></div><div class="s-c"><input type="range" class="s-range" data-s="titleSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_titleSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show title</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showTitle"><span></span></label></div></div></div></section><section class="s-pane" id="pane-dock"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><h2>Dock</h2></div><div class="s-cap">Dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Dock opacity</div></div><div class="s-c"><input type="range" class="s-range" id="dockOpacity" min="10" max="100" value="15" oninput="adjustDock()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock size</div></div><div class="s-c"><input type="range" class="s-range" id="dockScale" min="70" max="130" value="100" oninput="adjustDock()"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Auto-hide dock</div><div class="s-sub">Slides away; move your mouse to the bottom edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoHide"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lift icons on hover</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="hoverLift"><span></span></label></div></div></div></section><section class="s-pane" id="pane-apps"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><h2>Apps</h2></div><div class="s-cap">Add an app</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div></div><div class="s-c"><input type="text" class="s-input wide" id="appName" placeholder="e.g. Roblox"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Website</div><div class="s-sub">Logo is fetched automatically</div></div><div class="s-c"><input type="text" class="s-input wide" id="appUrl" placeholder="Optional — e.g. roblox.com"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Add to</div><div class="s-sub">Put it straight into a folder</div></div><div class="s-c"><select class="s-select" id="appFolderSel"></select></div></div><div class="s-row end"><button type="button" class="s-btn primary" onclick="sysAddApp()">Add App</button></div></div><div class="s-cap">Organise</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Folders</div><div class="s-sub">Group apps into one tidy icon in the dock</div></div><div class="s-c"><button type="button" class="s-btn" onclick="newFolder()">New folder…</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Dividers</div><div class="s-sub">A thin line that separates groups, like the one before the ⋮ button</div></div><div class="s-c"><button type="button" class="s-btn" onclick="addDivider()">Add divider</button></div></div></div><div class="s-cap">Your dock <span class="hint">· reorder, rename, group or delete</span></div><div class="s-card" id="appList"></div></section><section class="s-pane" id="pane-search"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><h2>Search</h2></div><div class="s-cap">Search bar</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Search engine</div></div><div class="s-c"><select class="s-select" data-s="engine"><option value="google">Google</option><option value="ddg">DuckDuckGo</option><option value="bing">Bing</option><option value="brave">Brave</option><option value="youtube">YouTube</option><option value="custom">Custom…</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Search recommendations</div><div class="s-sub">Show live Google suggestions, recent searches, and matching apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="searchSuggest"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Custom search URL</div><div class="s-sub">Pick “Custom…” above. Use %s where the search words go.</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="customEngine" placeholder="https://example.com/search?q=%s"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Custom search bangs</div><div class="s-sub">Type @tag + query in search (use %s for search words)</div></div><div class="s-c"><input type="text" class="s-input" id="bangTagIn" placeholder="@rbx" maxlength="10" style="width:74px"><input type="text" class="s-input wide" id="bangUrlIn" placeholder="https://www.roblox.com/discover/?Keyword=%s"><button type="button" class="s-btn primary" onclick="addCustomBang()">Add</button></div></div><div class="s-row" id="bangListRow" style="display:none"><div class="bang-list" id="bangList"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Safe search</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="safeSearch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open links in a new tab</div><div class="s-sub">Applies to searches and apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="newTab"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Start on the search bar</div><div class="s-sub">Ready to type when SparkOS opens, and typing anywhere jumps to it</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoFocus"><span></span></label></div></div></div></section><section class="s-pane" id="pane-shortcuts"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><h2>Shortcuts</h2></div><div class="s-cap">Keyboard</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Enable keyboard shortcuts</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="shortcuts"><span></span></label></div></div></div><div class="s-cap">Reference</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Focus the search bar</div></div><div class="s-c"><kbd>/</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Launch app 1 – 9</div></div><div class="s-c"><kbd>Alt</kbd><kbd>1–9</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open Settings</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>,</kbd></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">Command palette</div><div class="s-sub">Jump to any app, setting or action</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>K</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Close menus</div></div><div class="s-c"><kbd>Esc</kbd></div></div></div></section><section class="s-pane" id="pane-fun"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><h2>Effects & Fun</h2></div><div class="s-cap">Ambience</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Background effect</div></div><div class="s-c"><select class="s-select" data-s="effect"><option value="none">None</option><option value="snow">Snow</option><option value="stars">Twinkling stars</option><option value="fireflies">Fireflies</option><option value="rain">Rain</option><option value="bubbles">Bubbles</option><option value="aurora">Aurora</option><option value="meteors">Meteor shower</option><option value="matrix">Digital rain</option><option value="embers">Embers</option><option value="petals">Cherry blossoms</option><option value="sparkles">Sparkles</option><option value="ornaments">Ornaments</option><option value="orbit">Orbit</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Effect amount</div></div><div class="s-c"><input type="range" class="s-range" data-s="effectAmount" data-unit="%" min="10" max="100"><span class="s-val" id="v_effectAmount"></span></div></div></div><div class="s-cap">Playful</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Confetti on launch</div><div class="s-sub">A little burst when you open an app</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="confetti"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock bounce on launch</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="bounce"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Click sounds</div><div class="s-sub">Soft blips when you launch apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="sounds"><span></span></label></div></div></div><div class="s-cap">Boot &amp; Workspace Animations</div><div class="s-card">
+<div class="s-row"><div class="s-l"><div class="s-lab">Boot animation</div><div class="s-sub">Choose how SparkOS reveals your desktop on startup</div></div><div class="s-c"><select class="s-select" data-s="bootAnim" onchange="previewBootAnim(false)"><option value="fade">Smooth Fade</option><option value="windows">e.g. Windows Bloom</option><option value="zoom">Glass Zoom</option><option value="slideUp">Slide Up</option><option value="curtain">Split Curtain</option><option value="ripple">Accent Ripple</option><option value="wipe">Light Wipe</option><option value="warp">Star Warp</option></select><button type="button" class="s-btn" onclick="previewBootAnim(true)">Play fullscreen</button></div></div>
+<div class="s-row"><div class="anim-eg-wrap"><div class="anim-eg-win" id="bootEgWin" onclick="previewBootAnim(false)" title="Click to replay boot example"><span class="anim-eg-badge">e.g. Boot Window</span><div class="anim-eg-desk"><b>SparkOS</b><span>Desktop Ready</span></div><div class="anim-eg-boot" id="bootEgScreen"><div class="mini-win"><i></i><i></i><i></i><i></i></div><b style="font-size:13px">SparkOS</b></div><span class="anim-eg-hint">Click to preview</span></div></div></div>
+<div class="s-row"><div class="s-l"><div class="s-lab">Workspace switch animation</div><div class="s-sub">Choose the transition when switching workspaces</div></div><div class="s-c"><select class="s-select" data-s="wsAnim" onchange="previewWsAnim()"><option value="fade">Smooth Fade</option><option value="windows">e.g. Windows Task View</option><option value="slide">Vertical Slide</option><option value="slideH">Horizontal Slide</option><option value="zoom">Glass Zoom</option><option value="flip">3D Card Flip</option><option value="blur">Liquid Blur</option><option value="curtain">Accent Curtain</option></select><button type="button" class="s-btn" onclick="previewWsAnim()">Preview</button></div></div>
+<div class="s-row"><div class="anim-eg-wrap"><div class="anim-eg-win" id="wsEgWin" onclick="previewWsAnim()" title="Click to replay workspace switch example"><span class="anim-eg-badge">e.g. Workspace Window</span><div class="anim-eg-desk anim-eg-ws" id="wsEgDesk"><b id="wsEgTitle">Home</b><span id="wsEgSub">Workspace 1</span></div><span class="anim-eg-hint">Click to preview</span></div></div></div>
+</div><div class="s-cap">Feeling lucky?</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Surprise me</div><div class="s-sub">Random accent, wallpaper and effect</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="surpriseMe()">Shuffle my look</button></div></div></div></section><section class="s-pane" id="pane-themes"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4a4.6 4.6 0 0 0 4.6-4.6C22 6 17.5 2 12 2z"/></svg></div><h2>Themes</h2></div>
 <div id="themesBody"><div class="s-cap">Save your current look</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Theme name</div><div class="s-sub">Saves accent, wallpaper, effect, icon style and shape, glass and dock</div></div><div class="s-c"><input type="text" class="s-input" id="themeName" placeholder="e.g. Night Owl" maxlength="24" onkeydown="if(event.key==='Enter') saveTheme()"><button type="button" class="s-btn primary" onclick="saveTheme()">Save</button></div></div></div>
 <div class="s-cap">Your themes <span class="hint">· up to 12</span></div><div class="s-card" id="themeList"></div></div>
-</section><section class="s-pane" id="pane-widgets"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><h2>Widgets</h2></div><div class="s-cap">On the desktop</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Virtual Notebook</div><div class="s-sub">Multi-page lined notebook saved per workspace</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notebook"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Notes</div><div class="s-sub">A sticky note that saves as you type</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notes"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Focus Timer</div><div class="s-sub">Pomodoro-style countdown with a chime</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="timer"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">To-do list</div><div class="s-sub">Tick tasks off; saved on this device</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="todo"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Quote of the day</div><div class="s-sub">A little nudge to start the day</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="quote"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar</div><div class="s-sub">Month view with today highlighted</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="calendar"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Weather</div><div class="s-sub">Search a city for the current conditions</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="weather"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock</div><div class="s-sub">Time in up to 4 places around the world</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="world"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock places</div><div class="s-sub">Comma-separated IANA zones, e.g. Europe/Paris, Asia/Dubai · Founders: up to 8 · up to 8 on Founders</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="zones" placeholder="America/New_York, Europe/London"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Stopwatch</div><div class="s-sub">With lap times</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="stopwatch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Widget layout</div><div class="s-sub">Drag any widget to move it anywhere. Double-click a widget’s title to send it back.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetWidgetLayout()">Reset layout</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Text sizes</div><div class="s-sub">Right-click any widget, or the clock, to change its title and text size separately.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetTextSizes()">Reset text sizes</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar week starts on</div></div><div class="s-c"><select class="s-select" data-s="weekStart"><option value="1">Monday</option><option value="0">Sunday</option></select></div></div></div></section><section class="s-pane" id="pane-workspaces"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><h2>Workspaces</h2></div><div class="s-cap">Add a workspace</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div><div class="s-sub">Each workspace has its own apps, widgets, notes, to-dos and wallpaper</div></div><div class="s-c"><input type="text" class="s-input wide" id="wsNewName" placeholder="e.g. Study, Gaming" maxlength="24" onkeydown="if(event.key==='Enter') createWorkspaceFromSettings()"><button type="button" class="s-btn primary" onclick="createWorkspaceFromSettings()">Add</button></div></div></div><div class="s-cap">Boot workspace</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">OG Workspace</div><div class="s-sub">Always open this workspace when the page reloads</div></div><div class="s-c"><select class="s-select" id="wsOgSel" onchange="setOgWorkspace(this.value)"></select></div></div></div><div class="s-cap">Your workspaces <span class="hint">· switch, rename, PIN-protect or delete</span></div><div class="s-card" id="wsSettingsList"></div></section><section class="s-pane" id="pane-system"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><h2>System</h2></div><div class="s-cap">Backup</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Export settings</div><div class="s-sub">Downloads a .zip with your background, fonts, text, diary, dock, and settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="exportSettings('dock')">Dock only</button><button type="button" class="s-btn" onclick="exportSettings('one')">This workspace</button><button type="button" class="s-btn primary" onclick="exportSettings('all')">Download all (.zip)</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Import settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="document.getElementById('importFile').click()">Choose file…</button><input type="file" id="importFile" accept=".zip,application/zip,application/json,.json" hidden onchange="importSettings(this.files[0])"></div></div></div><div class="s-cap">About</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Edition</div></div><div class="s-c"><span class="edition-pill big" id="editionPill2"></span></div></div><div class="s-row" id="founderNoRow" style="display:none"><div class="s-l"><div class="s-lab">Founder number</div><div class="s-sub">Shown on your Founders badge</div></div><div class="s-c"><input type="text" class="s-input mono" data-s="founderNo" placeholder="0001" maxlength="5"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">SparkOS</div><div class="s-sub">Made by Viwin Jayaramanrani</div></div><div class="s-c"><span class="s-val static" id="aboutVer">Version 12.5</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Apps in dock</div></div><div class="s-c"><span class="s-val static" id="aboutApps">0</span></div></div></div><div class="s-cap">Lock &amp; privacy</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Require unlock</div><div class="s-sub">Show a PIN lock when SparkOS opens (and when you lock it)</div></div><div class="s-c"><label class="sw"><input type="checkbox" id="lockEnabled" onchange="toggleLockEnabled(this.checked)"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Set / change PIN</div><div class="s-sub">4 digits · stored only on this device as a hash</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="promptSetPin()">Set PIN…</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Touch ID / Face ID (Default)</div><div class="s-sub">Prompts Touch ID / Face ID automatically first when unlocking SparkOS or protected workspaces</div></div><div class="s-c"><button type="button" class="s-btn" id="bioSetupBtn" onclick="setupBiometric()">Set up…</button><button type="button" class="s-btn danger" id="bioClearBtn" style="display:none" onclick="clearBiometric()">Remove</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lock now</div></div><div class="s-c"><button type="button" class="s-btn" onclick="lockSparkOS()">Lock SparkOS</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Hide (⌘⇧H)</div><div class="s-sub">Instantly switch to an unlocked workspace or hide widgets; press again to restore</div></div><div class="s-c"><button type="button" class="s-btn" onclick="toggleQuickHide()">Quick Hide</button></div></div></div><div class="s-cap">Danger zone</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Reset everything</div><div class="s-sub">Erases all apps and settings</div></div><div class="s-c"><button type="button" class="s-btn danger" onclick="resetSystemData()">Reset SparkOS…</button></div></div></div></section></main>
+</section><section class="s-pane" id="pane-widgets"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><h2>Widgets</h2></div><div class="s-cap">On the desktop</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Virtual Notebook</div><div class="s-sub">Multi-page lined notebook saved per workspace</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notebook"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Notes</div><div class="s-sub">A sticky note that saves as you type</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notes"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Focus Timer</div><div class="s-sub">Pomodoro-style countdown with a chime</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="timer"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">To-do list</div><div class="s-sub">Tick tasks off; saved on this device</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="todo"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Quote of the day</div><div class="s-sub">A little nudge to start the day</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="quote"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar</div><div class="s-sub">Month view with today highlighted</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="calendar"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Weather</div><div class="s-sub">Search a city for the current conditions</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="weather"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock</div><div class="s-sub">Time in up to 4 places around the world</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="world"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock places</div><div class="s-sub">Comma-separated IANA zones, e.g. Europe/Paris, Asia/Dubai · Founders: up to 8 · up to 8 on Founders</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="zones" placeholder="America/New_York, Europe/London"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Stopwatch</div><div class="s-sub">With lap times</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="stopwatch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Widget layout</div><div class="s-sub">Drag any widget to move it anywhere. Double-click a widget’s title to send it back.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetWidgetLayout()">Reset layout</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Text sizes</div><div class="s-sub">Right-click any widget, or the clock, to change its title and text size separately.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetTextSizes()">Reset text sizes</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar week starts on</div></div><div class="s-c"><select class="s-select" data-s="weekStart"><option value="1">Monday</option><option value="0">Sunday</option></select></div></div></div></section><section class="s-pane" id="pane-workspaces"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><h2>Workspaces</h2></div><div class="s-cap">Add a workspace</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div><div class="s-sub">Each workspace has its own apps, widgets, notes, to-dos and wallpaper</div></div><div class="s-c"><input type="text" class="s-input wide" id="wsNewName" placeholder="e.g. Study, Gaming" maxlength="24" onkeydown="if(event.key==='Enter') createWorkspaceFromSettings()"><button type="button" class="s-btn primary" onclick="createWorkspaceFromSettings()">Add</button></div></div></div><div class="s-cap">Workspaces dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Auto-hide workspaces rail</div><div class="s-sub">Slides away; move your mouse to the left edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="wsAutoHide"><span></span></label></div></div></div><div class="s-cap">Your workspaces <span class="hint">· switch, set startup, rename, PIN-protect or delete</span></div><div class="s-card" id="wsSettingsList"></div></section><section class="s-pane" id="pane-system"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><h2>System</h2></div><div class="s-cap">Backup</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Export settings</div><div class="s-sub">Downloads a .zip with your background, fonts, text, diary, dock, and settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="exportSettings('dock')">Dock only</button><button type="button" class="s-btn" onclick="exportSettings('one')">This workspace</button><button type="button" class="s-btn primary" onclick="exportSettings('all')">Download all (.zip)</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Import settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="document.getElementById('importFile').click()">Choose file…</button><input type="file" id="importFile" accept=".zip,application/zip,application/json,.json" hidden onchange="importSettings(this.files[0])"></div></div></div><div class="s-cap">About</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Edition</div></div><div class="s-c"><span class="edition-pill big" id="editionPill2"></span></div></div><div class="s-row" id="founderNoRow" style="display:none"><div class="s-l"><div class="s-lab">Founder number</div><div class="s-sub">Shown on your Founders badge</div></div><div class="s-c"><input type="text" class="s-input mono" data-s="founderNo" placeholder="0001" maxlength="5"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">SparkOS</div><div class="s-sub">Made by Viwin Jayaramanrani</div></div><div class="s-c"><span class="s-val static" id="aboutVer">Version 12.7</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Apps in dock</div></div><div class="s-c"><span class="s-val static" id="aboutApps">0</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Update log</div><div class="s-sub">See what changed in recent SparkOS builds</div></div><div class="s-c"><button type="button" class="s-btn" id="updLogBtn" onclick="toggleUpdateLog()">View log</button></div></div><div class="upd-log" id="updLogBody"></div></div><div class="s-cap">Lock &amp; privacy</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Require unlock</div><div class="s-sub">Show a PIN lock when SparkOS opens (and when you lock it)</div></div><div class="s-c"><label class="sw"><input type="checkbox" id="lockEnabled" onchange="toggleLockEnabled(this.checked)"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Set / change PIN</div><div class="s-sub">4 digits · stored only on this device as a hash</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="promptSetPin()">Set PIN…</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Touch ID / Face ID (Default)</div><div class="s-sub">Prompts Touch ID / Face ID automatically first when unlocking SparkOS or protected workspaces</div></div><div class="s-c"><button type="button" class="s-btn" id="bioSetupBtn" onclick="setupBiometric()">Set up…</button><button type="button" class="s-btn danger" id="bioClearBtn" style="display:none" onclick="clearBiometric()">Remove</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lock now</div></div><div class="s-c"><button type="button" class="s-btn" onclick="lockSparkOS()">Lock SparkOS</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Hide (⌘⇧H)</div><div class="s-sub">Instantly switch to an unlocked workspace or hide widgets; press again to restore</div></div><div class="s-c"><button type="button" class="s-btn" onclick="toggleQuickHide()">Quick Hide</button></div></div></div><div class="s-cap">Danger zone</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Reset everything</div><div class="s-sub">Erases all apps and settings</div></div><div class="s-c"><button type="button" class="s-btn danger" onclick="resetSystemData()">Reset SparkOS…</button></div></div></div></section></main>
         </div>
     </div>
     <script>
@@ -1022,21 +1163,25 @@
     let appStorage = {};
     const WALLPAPER_FALLBACK = 'radial-gradient(circle at 80% 20%, #1e1b4b, #0f172a, #020617)';
     window.addEventListener('DOMContentLoaded', () => { 
-        if (typeof bootToOgWorkspace === 'function') bootToOgWorkspace();
+        if (typeof applyPreferredWorkspaceOnBoot === 'function') applyPreferredWorkspaceOnBoot();
         loadSettings(); focusSearch(); loadSavedApps(); loadSavedWallpaper(); loadSavedTitle(); initSystemClock(); loadDockStyles(); initLiquidGlass(); loadAccent(); sampleWallpaper(); initSettingsUI();
         if (IS_XMAS) { setupChristmas2026(); cleanXmasLegacy(); }
         
         // Rapid 400ms Launcher Transition Timeout Loop
+        const bootEl = document.getElementById('bootScreen');
+        if (bootEl) bootEl.setAttribute('data-anim', settings.bootAnim || 'fade');
         setTimeout(() => {
             const loader = document.getElementById('bootScreen');
             if(loader) {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.visibility = 'hidden', 300);
+                loader.setAttribute('data-anim', settings.bootAnim || 'fade');
+                loader.classList.add('boot-out');
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 460);
             }
             maybeShowLockOnBoot();
         }, 400);
         initLockPad();
         syncLockUI();
+        window._sparkBootDone = true;
 
     });
 
@@ -1174,6 +1319,7 @@
         });
     }
     function toggleLiquidGlass() {
+        if (window._sparkBootDone && needsHomeEditPin()) { updateLgButton(); requireHomeEditPin(toggleLiquidGlass); return; }
         const off = document.documentElement.classList.toggle('lg-off');
         localStorage.setItem('viwinos_liquid', off ? 'off' : 'on');
         updateLgButton();
@@ -1197,6 +1343,7 @@
         } else g.innerText = '';
     }
     function adjustDock() {
+        if (window._sparkBootDone && needsHomeEditPin()) { loadDockStyles(); requireHomeEditPin(() => toast('Home unlocked')); return; }
         const opacity = document.getElementById('dockOpacity').value / 100;
         const scale = document.getElementById('dockScale').value / 100;
         const dock = document.getElementById('mainDock');
@@ -1409,6 +1556,7 @@
     }
     function toggleEditPanel(event) { if (event) event.stopPropagation(); openSettings(); }
     function applyCustomTitle() {
+        if (window._sparkBootDone && needsHomeEditPin()) { loadSavedTitle(); requireHomeEditPin(() => document.getElementById('titleInput').focus()); return; }
         const txt = document.getElementById('titleInput').value.trim();
         if (txt) {
             document.getElementById('desktopTitle').innerText = txt;
@@ -1459,6 +1607,7 @@
         ];
     }
     function sysAddApp() {
+        if (needsHomeEditPin()) { requireHomeEditPin(sysAddApp); return; }
         const name = document.getElementById('appName').value.trim();
         let url = document.getElementById('appUrl').value.trim();
         if (!name) { alert("Please enter an app name."); return; }
@@ -1541,7 +1690,7 @@
     document.addEventListener('contextmenu', e => { if (!e.target.closest || !e.target.closest('.viwinos-saved-app,.viwinos-saved-item,.fp-item,.ws-item')) hideCtx(); });
     document.addEventListener('click', e => { if (!e.target.closest('#folderPop,.dock-folder,#ctxMenu')) closeFolder(); });
     function clearInputs() { document.getElementById('appName').value=''; document.getElementById('appUrl').value=''; }
-    function resetSystemData() { if (confirm("Reset everything?")) { localStorage.clear(); location.reload(); } }
+    function resetSystemData() { if (needsHomeEditPin()) { requireHomeEditPin(resetSystemData); return; } if (confirm("Reset everything?")) { localStorage.clear(); location.reload(); } }
     function saveAppsToStorage() { localStorage.setItem('viwinos_storage_v16', JSON.stringify(appStorage)); }
 function buildIcon(data, cls) {
         // Older saves without the flag: treat generated Google-favicon links as automatic
@@ -1602,6 +1751,7 @@ function reloadVisualIcons() {
                 const srcKey = window._dockDragKey;
                 el.classList.remove('dock-drop-l', 'dock-drop-r');
                 if (!srcKey || srcKey === key || !appStorage[srcKey]) return;
+                if (needsHomeEditPin()) { requireHomeEditPin(() => toast('Home unlocked — drag again to reorder')); return; }
                 const r = el.getBoundingClientRect();
                 const after = e.clientX > r.left + r.width / 2;
                 const entries = Object.entries(appStorage).filter(([k]) => k !== srcKey);
@@ -1626,9 +1776,10 @@ function reloadVisualIcons() {
         appStorage = {};
         const stored = localStorage.getItem('viwinos_storage_v16');
         if (stored === null) {
-            [['Google','google.com'],['YouTube','youtube.com'],['GitHub','github.com'],['Wikipedia','wikipedia.org']].forEach(([label, domain]) => {
-                appStorage[label.toLowerCase()] = { url: 'https://' + domain, icon: '', custom: false, label };
-            });
+            appStorage['google'] = { url: 'https://google.com', icon: '', custom: false, label: 'Google' };
+            appStorage['youtube'] = { url: 'https://youtube.com', icon: '', custom: false, label: 'YouTube' };
+            appStorage['sparkos'] = { url: 'https://github.com/viwinjr28-prog/SparkOS', icon: '', custom: false, label: 'SparkOS' };
+            appStorage['wikipedia'] = { url: 'https://wikipedia.org', icon: '', custom: false, label: 'Wikipedia' };
             saveAppsToStorage(); reloadVisualIcons(); return;
         }
         try { appStorage = JSON.parse(stored) || {}; reloadVisualIcons(); } catch(e) {}
@@ -1639,9 +1790,9 @@ function reloadVisualIcons() {
     const DEFAULTS = {
         greeting: true, userName: '', clock24: false, showSeconds: true, showDate: true, clockSize: 100,
         titleSize: 100, showTitle: true, fontPreset: 'system', fontName: '', fontFile: '', fontScope: 'all', cursorStyle: 'default', cursorSize: 32, cursorHot: 'tl', cursorFile: '',
-        autoHide: false, hoverLift: true, iconShape: 'squircle', wallDim: 0,
+        autoHide: false, wsAutoHide: false, hoverLift: true, iconShape: 'squircle', wallDim: 0,
         engine: 'google', safeSearch: true, searchSuggest: true, newTab: true, shortcuts: true,
-        effect: 'none', effectAmount: 60, confetti: false, bounce: true, sounds: false,
+        effect: 'none', effectAmount: 60, bootAnim: 'fade', wsAnim: 'fade', confetti: false, bounce: true, sounds: false,
         notes: false, notebook: false, timer: false, accentGlow: true, iconStyle: 'default', autoFocus: true, stopwatch: false, world: false, zones: 'America/New_York, Europe/London, Asia/Tokyo', customEngine: '', founderNo: '',
         todo: false, quote: false, calendar: false, weather: false, weekStart: '1', focusMode: false
     };
@@ -1667,6 +1818,11 @@ function reloadVisualIcons() {
     function saveSettings() { try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) {} }
     function getSetting(k) { return k === 'tint' ? tintMode() : settings[k]; }
     function setSetting(k, v) {
+        if (window._sparkBootDone && needsHomeEditPin()) {
+            syncControls();
+            requireHomeEditPin(() => setSetting(k, v));
+            return;
+        }
         if (k === 'tint') { localStorage.setItem('viwinos_tint', v); updateTint(); return; }
         settings[k] = v; saveSettings(); applySettings(); updateVals();
     }
@@ -1702,9 +1858,24 @@ function reloadVisualIcons() {
         const hot = document.getElementById('dockHot'), wrap = document.querySelector('.dock-wrapper');
         hot.addEventListener('mouseenter', () => document.documentElement.classList.add('dock-peek'));
         wrap.addEventListener('mouseleave', () => document.documentElement.classList.remove('dock-peek'));
+        const wsHot = document.getElementById('wsHot'), wsRailEl = document.getElementById('wsRail');
+        if (wsHot && wsRailEl) {
+            wsHot.addEventListener('mouseenter', () => document.documentElement.classList.add('ws-peek'));
+            wsRailEl.addEventListener('mouseleave', () => document.documentElement.classList.remove('ws-peek'));
+            document.addEventListener('mousemove', e => {
+                if (!settings.wsAutoHide) return;
+                if (e.clientX <= 16) document.documentElement.classList.add('ws-peek');
+                else if (e.clientX > 110 && !wsRailEl.matches(':hover')) {
+                    const pop = document.getElementById('wsIconPop'), ctx = document.getElementById('ctxMenu');
+                    if ((!pop || !pop.classList.contains('open')) && (!ctx || ctx.style.display !== 'flex')) {
+                        document.documentElement.classList.remove('ws-peek');
+                    }
+                }
+            }, { passive: true });
+        }
         const notes = document.getElementById('notesArea');
         notes.value = localStorage.getItem('viwinos_notes') || '';
-        notes.addEventListener('input', () => localStorage.setItem('viwinos_notes', 'viwinos_notebook', 'viwinos_search_hist', 'viwinos_bangs', 'viwinos_notebook_pass', notes.value));
+        notes.addEventListener('input', () => { if (needsHomeEditPin()) { notes.value = localStorage.getItem('viwinos_notes') || ''; requireHomeEditPin(() => notes.focus()); return; } localStorage.setItem('viwinos_notes', notes.value); });
         loadTodos(); initWidgetDrag(); initSizeMenu(); renderPresets(); applyEditionUI(); syncControls(); applySettings(); applyLocks(); renderThemes(); swRender(); showPane('appearance'); renderTimer();
         setInterval(() => { if (settings.weather) wxEnsure(); }, 600000);
     }
@@ -1737,9 +1908,50 @@ function reloadVisualIcons() {
         o.classList.remove('open'); blip(360, 0.06); setTimeout(() => document.getElementById('omnibar').focus(), 50);
     }
 
+    let _bootEgTimer = null, _wsEgTimer = null, _wsEgFlip = false;
+    function previewBootAnim(full) {
+        const anim = settings.bootAnim || 'fade';
+        const eg = document.getElementById('bootEgScreen');
+        if (eg) {
+            clearTimeout(_bootEgTimer);
+            eg.setAttribute('data-anim', anim);
+            eg.classList.remove('out');
+            void eg.offsetWidth;
+            _bootEgTimer = setTimeout(() => eg.classList.add('out'), 260);
+        }
+        if (full) {
+            const loader = document.getElementById('bootScreen');
+            if (!loader) return;
+            loader.classList.remove('boot-out');
+            loader.style.visibility = 'visible';
+            loader.style.opacity = '1';
+            loader.setAttribute('data-anim', anim);
+            setTimeout(() => {
+                loader.classList.add('boot-out');
+                setTimeout(() => { loader.style.visibility = 'hidden'; loader.classList.remove('boot-out'); }, 460);
+            }, 420);
+        }
+    }
+    function previewWsAnim() {
+        const anim = settings.wsAnim || 'fade';
+        const desk = document.getElementById('wsEgDesk');
+        const t = document.getElementById('wsEgTitle');
+        const s = document.getElementById('wsEgSub');
+        if (!desk) return;
+        clearTimeout(_wsEgTimer);
+        desk.setAttribute('data-anim', anim);
+        desk.classList.add('out');
+        _wsEgTimer = setTimeout(() => {
+            _wsEgFlip = !_wsEgFlip;
+            if (t) t.textContent = _wsEgFlip ? 'Work' : 'Home';
+            if (s) s.textContent = _wsEgFlip ? 'Workspace 2' : 'Workspace 1';
+            desk.classList.remove('out');
+        }, 240);
+    }
     function applySettings() {
         const r = document.documentElement;
         r.classList.toggle('dock-autohide', !!settings.autoHide);
+        r.classList.toggle('ws-autohide', !!settings.wsAutoHide);
         r.classList.toggle('no-lift', !settings.hoverLift); r.classList.toggle('no-glow', !settings.accentGlow);
         r.dataset.shape = settings.iconShape; r.dataset.icons = settings.iconStyle || 'default'; updateClear();
         r.style.setProperty('--wall-dim', (settings.wallDim / 100).toFixed(2));
@@ -2031,7 +2243,7 @@ function reloadVisualIcons() {
     function cancelLockPrompt() {
         if (!profilePinMode) return;
         profilePinMode = null; pendingProfile = null;
-        pendingAppLaunch = null; pendingFolderOpen = null; pendingUnlockItem = null;
+        pendingAppLaunch = null; pendingFolderOpen = null; pendingUnlockItem = null; pendingHomeEdit = null;
         const sub = document.getElementById('lockSub');
         if (sub) sub.textContent = 'Private · enter your PIN';
         hideLockScreen();
@@ -2059,6 +2271,10 @@ function reloadVisualIcons() {
                 if (act.fk && openFolderKey === act.fk) renderFolderPop();
                 toast('Unlocked ' + item.label);
             }
+        } else if (mode === 'homeEdit') {
+            homeEditUnlocked = true;
+            const fn = pendingHomeEdit; pendingHomeEdit = null;
+            if (typeof fn === 'function') fn();
         }
     }
     function launchApp(url, el, appData, bypassLock) {
@@ -2234,6 +2450,7 @@ function reloadVisualIcons() {
         sampleWallpaper(); checkQuality(currentBlobUrl);
     }
     function setWallpaper(url) {
+        if (window._sparkBootDone && needsHomeEditPin()) { requireHomeEditPin(() => setWallpaper(url)); return; }
         if (!url) { document.body.style.backgroundImage = `url('wallpapers/wallpaper.jpg'), ${WALLPAPER_FALLBACK}`; return; }
         if (url === 'local:wallpaper') {
             const wsKey = 'wallpaper:' + (typeof activeProfile !== 'undefined' ? activeProfile : 'home');
@@ -2942,10 +3159,12 @@ function reloadVisualIcons() {
         $('todoCount').textContent = todos.length ? left + ' left' : 'Nothing to do';
     }
     function todoAdd() {
+        if (needsHomeEditPin()) { requireHomeEditPin(todoAdd); return; }
         const inp = $('todoInput'), v = inp.value.trim(); if (!v) return;
         todos.unshift({ t: v, d: false }); inp.value = ''; saveTodos(); renderTodos();
     }
-    function todoClear() { todos = todos.filter(t => !t.d); saveTodos(); renderTodos(); }
+    function todoClear() {
+        if (needsHomeEditPin()) { requireHomeEditPin(todoClear); return; } todos = todos.filter(t => !t.d); saveTodos(); renderTodos(); }
 
     /* ---- quote of the day ---- */
     const QUOTES = [
@@ -3137,7 +3356,7 @@ function reloadVisualIcons() {
             b.textContent = EDITION === 'standard' ? '' : (IS_FOUNDER ? 'Founders Edition' : (IS_XMAS ? 'Christmas 2026' : 'Beta'));
             b.className = 'boot-edition ' + (IS_XMAS ? 'christmas' : cls);
         }
-        const v = document.getElementById('aboutVer'); if (v) v.textContent = 'Version 12.5' + (EDITION === 'standard' ? '' : ' · ' + EDITION_LABEL);
+        const v = document.getElementById('aboutVer'); if (v) v.textContent = 'Version 12.7' + (EDITION === 'standard' ? '' : ' · ' + EDITION_LABEL);
         updateEditionTag();
         if (EDITION === 'standard' && !document.getElementById('editionCard')) {
             const head = document.getElementById('pane-system').querySelector('.s-head');
@@ -3243,6 +3462,7 @@ function reloadVisualIcons() {
     function loadThemes() { try { return JSON.parse(localStorage.getItem('viwinos_themes') || '[]'); } catch (e) { return []; } }
     function storeThemes(l) { try { localStorage.setItem('viwinos_themes', JSON.stringify(l)); } catch (e) {} }
     function saveTheme() {
+        if (needsHomeEditPin()) { requireHomeEditPin(saveTheme); return; }
         if (!CAPS.themes) return;
         const inp = document.getElementById('themeName'), name = inp.value.trim(), list = loadThemes();
         if (!name) { toast('Give your theme a name first'); inp.focus(); return; }
@@ -3543,6 +3763,65 @@ function reloadVisualIcons() {
     const LOCK_PIN_KEY = 'viwinos_lock_pin_hash';
     const LOCK_ON_KEY = 'viwinos_lock_enabled';
     const LOCK_BIO_KEY = 'viwinos_lock_bio_id';
+    const FIRST_BOOT_KEY = 'viwinos_onboarded_v1';
+    let homeEditUnlocked = false;
+    let pendingHomeEdit = null;
+    function needsHomeEditPin() {
+        return activeProfile === 'home' && !homeEditUnlocked && !!localStorage.getItem(LOCK_PIN_KEY);
+    }
+    function requireHomeEditPin(actionFn) {
+        if (!needsHomeEditPin()) { if (typeof actionFn === 'function') actionFn(); return true; }
+        pendingHomeEdit = actionFn || null;
+        profilePinMode = 'homeEdit';
+        const sub = document.getElementById('lockSub');
+        if (sub) sub.textContent = 'Enter PIN to edit Home workspace';
+        showLockScreen();
+        return false;
+    }
+    function showOnboarding() {
+        const o = document.getElementById('onboardOverlay');
+        if (!o) return;
+        document.getElementById('obStepPin').style.display = '';
+        document.getElementById('obStepPrivacy').style.display = 'none';
+        document.getElementById('obPin1').value = '';
+        document.getElementById('obPin2').value = '';
+        document.getElementById('obErr').textContent = '';
+        o.classList.add('show');
+        o.setAttribute('aria-hidden', 'false');
+        setTimeout(() => document.getElementById('obPin1').focus(), 80);
+    }
+    async function submitOnboardPin() {
+        const p1 = (document.getElementById('obPin1').value || '').trim();
+        const p2 = (document.getElementById('obPin2').value || '').trim();
+        const err = document.getElementById('obErr');
+        if (!/^\d{4}$/.test(p1)) { err.textContent = 'PIN must be exactly 4 digits.'; return; }
+        if (p1 !== p2) { err.textContent = 'PINs did not match.'; return; }
+        err.textContent = '';
+        localStorage.setItem(LOCK_PIN_KEY, await sha256Hex('sparkos-v6:' + p1));
+        localStorage.setItem(LOCK_ON_KEY, '1');
+        syncLockUI();
+        document.getElementById('obStepPin').style.display = 'none';
+        document.getElementById('obStepPrivacy').style.display = '';
+        const obLock = document.getElementById('obLockOn');
+        if (obLock) obLock.checked = lockEnabled();
+        const bioRow = document.getElementById('obBioRow');
+        if (bioRow) bioRow.style.display = window.PublicKeyCredential ? '' : 'none';
+    }
+    function finishOnboarding() {
+        localStorage.setItem(FIRST_BOOT_KEY, '1');
+        localStorage.setItem(LAST_VER_KEY, SPARKOS_VERSION);
+        const o = document.getElementById('onboardOverlay');
+        if (o) { o.classList.remove('show'); o.setAttribute('aria-hidden', 'true'); }
+        setTimeout(focusSearch, 80);
+        const c = document.getElementById('updCard'), t = document.getElementById('updTitle'), s = document.getElementById('updSub');
+        if (c) {
+            if (t) t.textContent = 'This is your edition';
+            if (s) s.textContent = 'SparkOS ' + EDITION_LABEL + ' · Version ' + SPARKOS_VERSION;
+            c.classList.add('show');
+            clearTimeout(updTimer);
+            updTimer = setTimeout(closeUpdateBanner, 8000);
+        }
+    }
     let lockBuf = '';
     let lockBusy = false;
 
@@ -3590,6 +3869,7 @@ function reloadVisualIcons() {
         }
     }
     function lockSparkOS() {
+        homeEditUnlocked = false;
         if (!localStorage.getItem(LOCK_PIN_KEY)) { toast('Set a 4-digit PIN in Settings → Lock & privacy first'); openSettings(); showPane('system'); return; }
         localStorage.setItem(LOCK_ON_KEY, '1');
         const sw = document.getElementById('lockEnabled'); if (sw) sw.checked = true;
@@ -3697,6 +3977,13 @@ function reloadVisualIcons() {
             const sw = document.getElementById('lockEnabled'); if (sw) sw.checked = false;
             promptSetPin(); return;
         }
+        if (!on) {
+            if (!confirm('Privacy is key—unless you want to leak stuff!\n\nAre you sure you want to turn off your PIN lock?')) {
+                const sw = document.getElementById('lockEnabled'); if (sw) sw.checked = true;
+                const ob = document.getElementById('obLockOn'); if (ob) ob.checked = true;
+                return;
+            }
+        }
         if (on) localStorage.setItem(LOCK_ON_KEY, '1'); else localStorage.removeItem(LOCK_ON_KEY);
         syncLockUI();
     }
@@ -3781,30 +4068,7 @@ function reloadVisualIcons() {
     
     /* ===================== Side Workspaces (v8 · letter-only + isolated areas) ===================== */
     const PROFILE_KEY = 'viwinos_active_profile';
-    const OG_WS_KEY = 'viwinos_og_workspace';
-    function getOgWorkspace() {
-        const raw = localStorage.getItem(OG_WS_KEY);
-        if (raw === '') return '';
-        if (raw && workspaces.some(w => w.id === raw)) return raw;
-        return workspaces.length ? workspaces[0].id : 'home';
-    }
-    function setOgWorkspace(id) {
-        try { localStorage.setItem(OG_WS_KEY, id || ''); } catch (e) {}
-        applyProfileUI();
-        if (!id) toast('Will stay on last opened workspace');
-        else { const w = getWorkspace(id); toast('OG workspace set to “' + (w ? w.name : id) + '”'); }
-    }
-    function bootToOgWorkspace() {
-        loadWorkspaces();
-        const og = getOgWorkspace();
-        const prev = localStorage.getItem(PROFILE_KEY) || (workspaces[0] ? workspaces[0].id : 'home');
-        if (og && workspaces.some(w => w.id === og) && prev !== og) {
-            if (workspaces.some(w => w.id === prev)) snapshotProfile(prev);
-            activeProfile = og;
-            try { localStorage.setItem(PROFILE_KEY, og); } catch (e) {}
-            restoreProfile(og);
-        }
-    }
+    const PREF_WS_KEY = 'viwinos_preferred_ws';
     const WS_LIST_KEY = 'viwinos_workspaces_v1';
     const PROFILE_PIN_HOME = 'viwinos_profile_pin_home';
     const PROFILE_PIN_WORK = 'viwinos_profile_pin_work';
@@ -3844,6 +4108,7 @@ function reloadVisualIcons() {
         return !!(w && w.pin);
     }
     function setProfilePinOn(id, on) {
+        if (id === 'home' && !on && !homeEditUnlocked && localStorage.getItem(LOCK_PIN_KEY)) { requireHomeEditPin(() => setProfilePinOn(id, on)); return; }
         const w = workspaces.find(x => x.id === id);
         if (!w) return;
         if (on && !localStorage.getItem(LOCK_PIN_KEY)) { promptSetPin(); return; }
@@ -3877,6 +4142,7 @@ function reloadVisualIcons() {
         });
     }
     function startRenameWorkspace(id) {
+        if (id === 'home' && !homeEditUnlocked && localStorage.getItem(LOCK_PIN_KEY)) { requireHomeEditPin(() => startRenameWorkspace(id)); return; }
         const w = workspaces.find(x => x.id === id);
         if (!w) return;
         const n = prompt('Rename workspace:', w.name);
@@ -3918,6 +4184,7 @@ function reloadVisualIcons() {
         createWorkspace(val);
     }
     function deleteWorkspace(id) {
+        if (id === 'home' && !homeEditUnlocked && localStorage.getItem(LOCK_PIN_KEY)) { requireHomeEditPin(() => deleteWorkspace(id)); return; }
         if (workspaces.length <= 1) { toast('You need at least one workspace'); return; }
         const w = workspaces.find(x => x.id === id);
         if (!w) return;
@@ -3937,6 +4204,7 @@ function reloadVisualIcons() {
         toast('Deleted “' + w.name + '”');
     }
     function resetWorkspaceArea(id) {
+        if (id === 'home' && !homeEditUnlocked && localStorage.getItem(LOCK_PIN_KEY)) { requireHomeEditPin(() => resetWorkspaceArea(id)); return; }
         const w = workspaces.find(x => x.id === id);
         if (!w) return;
         if (!confirm('Reset workspace “' + w.name + '” back to defaults? (Only this workspace will be cleared.)')) return;
@@ -3999,6 +4267,7 @@ function reloadVisualIcons() {
         else el.textContent = wsFirstLetter(w.name);
     }
     function setWorkspaceIcon(id, iconKey) {
+        if (id === 'home' && !homeEditUnlocked && localStorage.getItem(LOCK_PIN_KEY)) { closeWsIconPop(); requireHomeEditPin(() => setWorkspaceIcon(id, iconKey)); return; }
         const w = workspaces.find(x => x.id === id);
         if (!w) return;
         w.icon = iconKey;
@@ -4098,6 +4367,48 @@ function reloadVisualIcons() {
     function wsFirstLetter(name) {
         return (name || '?').trim().slice(0, 1).toUpperCase();
     }
+    function showWsPeek(el, w) {
+        const card = document.getElementById('wsPeekCard'), nm = document.getElementById('wsPeekName'), meta = document.getElementById('wsPeekMeta');
+        if (!card || !nm || !meta) return;
+        nm.textContent = w.name;
+        let appCount = 0;
+        if (w.id === activeProfile) {
+            appCount = Object.values(appStorage || {}).filter(x => x && x.type !== 'divider').length;
+        } else {
+            try {
+                const bag = JSON.parse(localStorage.getItem(profileBagKey(w.id)) || '{}');
+                const apps = bag.viwinos_storage_v16 ? JSON.parse(bag.viwinos_storage_v16) : null;
+                if (apps) appCount = Object.values(apps).filter(x => x && x.type !== 'divider').length;
+            } catch (e) {}
+        }
+        const parts = [];
+        if (w.id === activeProfile) parts.push('Active');
+        if (localStorage.getItem(PREF_WS_KEY) === w.id) parts.push('Startup');
+        if (w.pin) parts.push('PIN');
+        parts.push(appCount + (appCount === 1 ? ' app' : ' apps'));
+        meta.textContent = parts.join(' · ');
+        const r = el.getBoundingClientRect();
+        card.style.left = (r.right + 12) + 'px';
+        card.style.top = Math.max(8, Math.min(r.top + r.height / 2 - 22, innerHeight - 64)) + 'px';
+        card.classList.add('show');
+    }
+    function hideWsPeek() {
+        const card = document.getElementById('wsPeekCard');
+        if (card) card.classList.remove('show');
+    }
+    function cycleWorkspace(dir) {
+        if (!workspaces || workspaces.length < 2) return;
+        const idx = workspaces.findIndex(w => w.id === activeProfile);
+        const next = (idx + dir + workspaces.length) % workspaces.length;
+        if (workspaces[next]) requestProfile(workspaces[next].id);
+    }
+    document.addEventListener('keydown', e => {
+        if (!settings.shortcuts || document.documentElement.classList.contains('locked')) return;
+        if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+            e.preventDefault();
+            cycleWorkspace(e.key === 'ArrowUp' ? -1 : 1);
+        }
+    });
     function applyProfileUI() {
         const list = document.getElementById('wsList');
         if (list) {
@@ -4106,7 +4417,7 @@ function reloadVisualIcons() {
                 const item = document.createElement('button');
                 item.type = 'button';
                 item.className = 'ws-item' + (w.id === activeProfile ? ' on' : '');
-                item.title = w.name + (w.pin ? ' (PIN protected)' : '') + ' · double-click or right-click to rename';
+                item.title = w.name + (w.pin ? ' (PIN protected)' : '') + ' · drag to reorder · double-click or right-click to rename';
                 renderWsGlyph(item, w);
                 if (w.pin) {
                     const lk = document.createElement('span');
@@ -4114,28 +4425,61 @@ function reloadVisualIcons() {
                     lk.innerHTML = SVGW(PATHS.lock);
                     item.appendChild(lk);
                 }
-                item.onclick = () => requestProfile(w.id);
+                item.draggable = true;
+                item.ondragstart = e => {
+                    window._wsDragId = w.id;
+                    item.classList.add('ws-dragging');
+                    if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', w.id); }
+                };
+                item.ondragend = () => {
+                    window._wsDragId = null;
+                    document.querySelectorAll('.ws-dragging,.ws-drop-t,.ws-drop-b').forEach(x => x.classList.remove('ws-dragging', 'ws-drop-t', 'ws-drop-b'));
+                };
+                item.ondragover = e => {
+                    if (!window._wsDragId || window._wsDragId === w.id) return;
+                    e.preventDefault();
+                    const r = item.getBoundingClientRect();
+                    const after = e.clientY > r.top + r.height / 2;
+                    item.classList.toggle('ws-drop-t', !after);
+                    item.classList.toggle('ws-drop-b', after);
+                };
+                item.ondragleave = () => { item.classList.remove('ws-drop-t', 'ws-drop-b'); };
+                item.ondrop = e => {
+                    e.preventDefault();
+                    const srcId = window._wsDragId;
+                    item.classList.remove('ws-drop-t', 'ws-drop-b');
+                    if (!srcId || srcId === w.id) return;
+                    const srcIdx = workspaces.findIndex(x => x.id === srcId);
+                    if (srcIdx < 0) return;
+                    const [moved] = workspaces.splice(srcIdx, 1);
+                    let targetIdx = workspaces.findIndex(x => x.id === w.id);
+                    if (targetIdx < 0) { workspaces.push(moved); }
+                    else {
+                        const r = item.getBoundingClientRect();
+                        if (e.clientY > r.top + r.height / 2) targetIdx++;
+                        workspaces.splice(targetIdx, 0, moved);
+                    }
+                    saveWorkspaces();
+                    applyProfileUI();
+                };
+                item.onmouseenter = () => showWsPeek(item, w);
+                item.onmouseleave = hideWsPeek;
+                item.onclick = () => { hideWsPeek(); requestProfile(w.id); };
                 item.ondblclick = e => { e.stopPropagation(); startRenameWorkspace(w.id); };
                 item.oncontextmenu = e => { e.preventDefault(); e.stopPropagation(); showWsCtx(e.clientX, e.clientY, w); };
                 list.appendChild(item);
             });
         }
-        const ogSel = document.getElementById('wsOgSel');
-        if (ogSel) {
-            const curOg = getOgWorkspace();
-            ogSel.innerHTML = '<option value="">Stay on last opened</option>';
-            workspaces.forEach(w => {
-                const opt = document.createElement('option');
-                opt.value = w.id; opt.textContent = w.name;
-                ogSel.appendChild(opt);
-            });
-            ogSel.value = curOg;
+        let curPref = localStorage.getItem(PREF_WS_KEY) || '';
+        if (!workspaces.some(w => w.id === curPref)) {
+            curPref = workspaces[0] ? workspaces[0].id : '';
+            if (curPref) localStorage.setItem(PREF_WS_KEY, curPref);
         }
         const sList = document.getElementById('wsSettingsList');
         if (sList) {
             sList.innerHTML = '';
             workspaces.forEach(w => {
-                const isAct = w.id === activeProfile, isOg = getOgWorkspace() === w.id;
+                const isAct = w.id === activeProfile;
                 const row = document.createElement('div');
                 row.className = 's-app';
                 const badge = document.createElement('div');
@@ -4148,18 +4492,12 @@ function reloadVisualIcons() {
                 const nm = document.createElement('div');
                 nm.className = 'nm';
                 nm.textContent = w.name;
+                const isPref = localStorage.getItem(PREF_WS_KEY) === w.id;
                 const sm = document.createElement('small');
-                sm.textContent = (isAct ? 'Active' : 'Inactive') + (isOg ? ' · OG' : '') + (w.pin ? ' · PIN protected' : '');
+                sm.textContent = (isAct ? 'Active' : 'Inactive') + (isPref ? ' · Preferred on reload' : '') + (w.pin ? ' · PIN protected' : '');
                 nm.appendChild(sm);
                 row.appendChild(nm);
 
-                if (!isOg) {
-                    const ogBtn = document.createElement('button');
-                    ogBtn.type = 'button'; ogBtn.className = 's-btn'; ogBtn.textContent = 'Set OG';
-                    ogBtn.title = 'Open this workspace automatically on reload';
-                    ogBtn.onclick = () => setOgWorkspace(w.id);
-                    row.appendChild(ogBtn);
-                }
                 if (!isAct) {
                     const swBtn = document.createElement('button');
                     swBtn.type = 'button'; swBtn.className = 's-btn'; swBtn.textContent = 'Switch';
@@ -4169,6 +4507,14 @@ function reloadVisualIcons() {
 
                 const acts = document.createElement('div');
                 acts.className = 'acts';
+
+                const prefBtn = document.createElement('button');
+                prefBtn.type = 'button';
+                prefBtn.className = 's-btn' + (isPref ? ' primary' : '');
+                prefBtn.textContent = isPref ? 'Startup' : 'Set startup';
+                prefBtn.title = isPref ? 'Opens on reload' : 'Set as startup workspace on reload';
+                prefBtn.onclick = () => setPreferredWorkspace(w.id);
+                row.appendChild(prefBtn);
 
                 const pinBtn = document.createElement('button');
                 pinBtn.type = 'button'; pinBtn.title = w.pin ? 'Remove PIN lock' : 'PIN-protect';
@@ -4201,6 +4547,8 @@ function reloadVisualIcons() {
         }
     }
     function reloadAfterProfileSwitch() {
+        const prevBoot = window._sparkBootDone;
+        window._sparkBootDone = false;
         try {
             closeFolder(); hideCtx(); hideSizeMenu();
             if (typeof customFace !== 'undefined' && customFace) { try { document.fonts.delete(customFace); } catch (e) {} customFace = null; }
@@ -4228,8 +4576,9 @@ function reloadVisualIcons() {
             const cur = getWorkspace(activeProfile);
             toast((cur ? cur.name : 'Workspace') + ' workspace');
         } catch (e) {
-            console.warn(e);
-            location.reload();
+            console.warn('Workspace switch warning:', e);
+        } finally {
+            window._sparkBootDone = prevBoot;
         }
         applyProfileUI();
     }
@@ -4238,6 +4587,7 @@ function reloadVisualIcons() {
         if (id === activeProfile || wsSwitching) return;
         const fade = document.getElementById('wsFade');
         const apply = () => {
+            if (activeProfile === 'home' && id !== 'home') homeEditUnlocked = false;
             snapshotProfile(activeProfile);
             activeProfile = id;
             localStorage.setItem(PROFILE_KEY, id);
@@ -4245,15 +4595,19 @@ function reloadVisualIcons() {
             reloadAfterProfileSwitch();
         };
         if (!fade) { apply(); return; }
+        const anim = settings.wsAnim || 'fade';
+        document.documentElement.setAttribute('data-ws-anim', anim);
+        document.documentElement.classList.add('ws-anim-out');
         wsSwitching = true;
         fade.classList.add('show');
         setTimeout(() => {
             apply();
             requestAnimationFrame(() => setTimeout(() => {
                 fade.classList.remove('show');
+                document.documentElement.classList.remove('ws-anim-out');
                 wsSwitching = false;
-            }, 40));
-        }, 190);
+            }, 60));
+        }, 230);
     }
     function requestProfile(id) {
         if (id === activeProfile) return;
@@ -4270,6 +4624,29 @@ function reloadVisualIcons() {
         switchProfile(id);
     }
 
+    function setPreferredWorkspace(id) {
+        const target = id || (workspaces[0] ? workspaces[0].id : '');
+        if (target) localStorage.setItem(PREF_WS_KEY, target);
+        applyProfileUI();
+        const w = target ? getWorkspace(target) : null;
+        if (w) toast('Reload will open “' + w.name + '”');
+    }
+    function applyPreferredWorkspaceOnBoot() {
+        loadWorkspaces();
+        let pref = localStorage.getItem(PREF_WS_KEY);
+        if (!pref || !workspaces.some(w => w.id === pref)) {
+            pref = workspaces[0].id;
+            localStorage.setItem(PREF_WS_KEY, pref);
+        }
+        let cur = localStorage.getItem(PROFILE_KEY) || workspaces[0].id;
+        if (!workspaces.some(w => w.id === cur)) cur = workspaces[0].id;
+        if (pref && workspaces.some(w => w.id === pref) && cur !== pref) {
+            if (!localStorage.getItem(profileBagKey(cur))) snapshotProfile(cur);
+            activeProfile = pref;
+            localStorage.setItem(PROFILE_KEY, pref);
+            restoreProfile(pref);
+        }
+    }
     function maybeShowLockOnBoot() {
         loadWorkspaces();
         activeProfile = localStorage.getItem(PROFILE_KEY) || workspaces[0].id;
@@ -4281,7 +4658,10 @@ function reloadVisualIcons() {
         applyProfileUI();
         window.addEventListener('beforeunload', () => { if (!window._sparkJustImported && localStorage.getItem(PROFILE_KEY) === activeProfile) snapshotProfile(activeProfile); });
         document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && localStorage.getItem(PROFILE_KEY) === activeProfile) snapshotProfile(activeProfile); });
-        if (lockEnabled()) {
+        const bootW = getWorkspace(activeProfile);
+        if (!localStorage.getItem(LOCK_PIN_KEY)) {
+            showOnboarding();
+        } else if (lockEnabled() || (bootW && bootW.pin && localStorage.getItem(LOCK_PIN_KEY))) {
             pendingUpdateCheck = true;
             showLockScreen();
         } else {
@@ -4289,7 +4669,7 @@ function reloadVisualIcons() {
         }
         syncLockUI();
     }
-    const SPARKOS_VERSION = '12.5';
+    const SPARKOS_VERSION = '12.7';
     const LAST_VER_KEY = 'viwinos_last_version';
     let pendingUpdateCheck = false;
     let updTimer = null;
@@ -4333,6 +4713,46 @@ function reloadVisualIcons() {
         c.classList.add('show');
         clearTimeout(updTimer);
         updTimer = setTimeout(closeUpdateBanner, 8000);
+    }
+    const UPD_LOG = [
+        { ver: '12.7', latest: true, items: [
+            'Fixed workspace switching triggering the Home edit PIN or reloading back to Startup.',
+            'Added Workspace Quick-Peek hover cards on the left rail and Alt + ↑ / ↓ switching.',
+            'Added Update Log (max 3 entries) and smooth UI animations everywhere.'
+        ]},
+        { ver: '12.6', items: [
+            'Added 8 boot animations & 8 workspace switch animations (with Windows-style options & preview windows).',
+            'Added first-boot PIN onboarding, Lock & Privacy box, and "This is your edition" login banner.',
+            'Added PIN removal warning, Home edit PIN lock, auto-hide rail, drag-to-reorder workspaces, and SparkOS repo dock icon.'
+        ]},
+        { ver: '12.5', items: [
+            'Isolated workspaces, Touch ID / Face ID + PIN lock, Quick Hide (⌘⇧H), Virtual Notebook, and Liquid Glass polish.'
+        ]}
+    ];
+    function renderUpdateLog() {
+        const body = document.getElementById('updLogBody');
+        if (!body) return;
+        body.innerHTML = UPD_LOG.slice(0, 3).map(entry =>
+            '<div><div class="upd-log-ver">Version ' + escHtml(entry.ver) + (entry.latest ? ' <span>Latest</span>' : '') + '</div><ul>' +
+            entry.items.map(it => '<li>' + escHtml(it) + '</li>').join('') +
+            '</ul></div>'
+        ).join('');
+    }
+    function toggleUpdateLog(forceOpen) {
+        const body = document.getElementById('updLogBody'), btn = document.getElementById('updLogBtn');
+        if (!body) return;
+        renderUpdateLog();
+        const open = forceOpen === true ? true : !body.classList.contains('open');
+        body.classList.toggle('open', open);
+        if (btn) btn.textContent = open ? 'Hide log' : 'View log';
+    }
+    function openUpdateLog() {
+        closeUpdateBanner();
+        openSettings();
+        showPane('system');
+        toggleUpdateLog(true);
+        const body = document.getElementById('updLogBody');
+        if (body) setTimeout(() => body.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
     }
     function closeUpdateBanner() {
         clearTimeout(updTimer);
