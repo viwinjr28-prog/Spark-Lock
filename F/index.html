@@ -29,9 +29,14 @@
             transition: opacity 0.3s ease, visibility 0.3s;
         }
         .boot-logo { font-size: 3.5rem; font-weight: 700; color: white; letter-spacing: -2px; margin-bottom: 20px; }
-        .boot-spinner {
-            width: 28px; height: 28px; border: 3px solid rgba(255, 255, 255, 0.15);
-            border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 30px;
+        .boot-spark {
+            width: 34px; height: 34px; margin-bottom: 26px; color: #fff;
+            filter: drop-shadow(0 0 18px rgba(var(--accent-rgb), 0.85));
+            animation: bootSpark 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.2) infinite alternate;
+        }
+        @keyframes bootSpark {
+            0% { transform: scale(0.82) rotate(-10deg); opacity: 0.72; }
+            100% { transform: scale(1.12) rotate(10deg); opacity: 1; }
         }
         .boot-branding { position: absolute; bottom: 40px; font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, 0.3); letter-spacing: 1px; text-transform: uppercase; }
         /* Boot & Workspace Animations (8 each + Preview Windows) */
@@ -1007,7 +1012,7 @@
         <div class="boot-win-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="boot-logo">SparkOS</div>
         <div class="boot-edition" id="bootEdition"></div>
-        <div class="boot-spinner"></div>
+        <svg class="boot-spark" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 L39 25 L60 32 L39 39 L32 60 L25 39 L4 32 L25 25 Z" fill="currentColor"/></svg>
         <div class="boot-branding">Made by Viwin Jayaramanrani</div>
     </div>
 
