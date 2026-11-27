@@ -29,9 +29,14 @@
             transition: opacity 0.3s ease, visibility 0.3s;
         }
         .boot-logo { font-size: 3.5rem; font-weight: 700; color: white; letter-spacing: -2px; margin-bottom: 20px; }
-        .boot-spinner {
-            width: 28px; height: 28px; border: 3px solid rgba(255, 255, 255, 0.15);
-            border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 30px;
+        .boot-spark {
+            width: 34px; height: 34px; margin-bottom: 26px; color: #fff;
+            filter: drop-shadow(0 0 18px rgba(var(--accent-rgb), 0.85));
+            animation: bootSpark 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.2) infinite alternate;
+        }
+        @keyframes bootSpark {
+            0% { transform: scale(0.82) rotate(-10deg); opacity: 0.72; }
+            100% { transform: scale(1.12) rotate(10deg); opacity: 1; }
         }
         .boot-branding { position: absolute; bottom: 40px; font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, 0.3); letter-spacing: 1px; text-transform: uppercase; }
         /* Boot & Workspace Animations (8 each + Preview Windows) */
@@ -40,24 +45,37 @@
         .boot-screen[data-anim="windows"] .boot-win-grid { display: grid; animation: winBloom 0.7s ease-out; }
         .boot-screen[data-anim="windows"] .boot-logo { font-size: 2.2rem; letter-spacing: -0.5px; margin-bottom: 16px; }
         @keyframes winBloom { 0% { transform: scale(0.72); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .boot-screen.boot-out { pointer-events: none; transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), clip-path 0.45s ease, filter 0.45s ease, visibility 0.45s; }
-        .boot-screen.boot-out[data-anim="fade"] { opacity: 0; }
-        .boot-screen.boot-out[data-anim="windows"] { opacity: 0; transform: scale(1.12); filter: blur(8px); }
-        .boot-screen.boot-out[data-anim="zoom"] { opacity: 0; transform: scale(1.28); }
+        .boot-screen { background: rgba(2, 6, 23, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .boot-screen[data-anim="curtain"], .boot-screen[data-anim="curtainH"] { clip-path: inset(0 0 0 0); }
+        .boot-screen[data-anim="ripple"] { clip-path: circle(150% at 50% 50%); }
+        .boot-screen[data-anim="wipe"] { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .boot-screen[data-anim="diamond"] { clip-path: polygon(50% -60%, 160% 50%, 50% 160%, -60% 50%); }
+        .boot-screen.boot-out { pointer-events: none; transition: opacity 0.52s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.52s cubic-bezier(0.2, 0.8, 0.2, 1), clip-path 0.52s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.52s ease, backdrop-filter 0.52s ease; }
+        .boot-screen.boot-out[data-anim="fade"] { opacity: 0; backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); filter: blur(10px); }
+        .boot-screen.boot-out[data-anim="windows"] { opacity: 0; transform: scale(1.14); filter: blur(10px); }
+        .boot-screen.boot-out[data-anim="zoom"] { opacity: 0; transform: scale(1.28); filter: blur(6px); }
         .boot-screen.boot-out[data-anim="slideUp"] { opacity: 0; transform: translateY(-100%); }
+        .boot-screen.boot-out[data-anim="slideDown"] { opacity: 0; transform: translateY(100%); }
         .boot-screen.boot-out[data-anim="curtain"] { opacity: 0; clip-path: inset(50% 0 50% 0); }
+        .boot-screen.boot-out[data-anim="curtainH"] { opacity: 0; clip-path: inset(0 50% 0 50%); }
         .boot-screen.boot-out[data-anim="ripple"] { opacity: 0; clip-path: circle(0% at 50% 50%); }
         .boot-screen.boot-out[data-anim="wipe"] { opacity: 0; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
-        .boot-screen.boot-out[data-anim="warp"] { opacity: 0; transform: scale(0.4) rotate(6deg); filter: blur(12px); }
+        .boot-screen.boot-out[data-anim="diamond"] { opacity: 0; clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+        .boot-screen.boot-out[data-anim="warp"] { opacity: 0; transform: scale(0.35) rotate(8deg); filter: blur(14px); }
+        .boot-screen.boot-out[data-anim="flip3d"] { opacity: 0; transform: perspective(1000px) rotateX(20deg) scale(0.9); filter: blur(6px); }
 
-        .brand-container, .dock-wrapper, #wLeft, #wRight { transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease, filter 0.25s ease; }
-        html.ws-anim-out[data-ws-anim="windows"] .brand-container, html.ws-anim-out[data-ws-anim="windows"] .dock-wrapper { transform: scale(0.92) translateY(12px); opacity: 0; filter: blur(6px); }
-        html.ws-anim-out[data-ws-anim="slide"] .brand-container, html.ws-anim-out[data-ws-anim="slide"] .dock-wrapper { transform: translateY(-28px); opacity: 0; }
-        html.ws-anim-out[data-ws-anim="slideH"] .brand-container, html.ws-anim-out[data-ws-anim="slideH"] .dock-wrapper { transform: translateX(-44px); opacity: 0; }
-        html.ws-anim-out[data-ws-anim="zoom"] .brand-container, html.ws-anim-out[data-ws-anim="zoom"] .dock-wrapper { transform: scale(1.08); opacity: 0; }
-        html.ws-anim-out[data-ws-anim="flip"] .brand-container { transform: perspective(900px) rotateY(22deg) scale(0.94); opacity: 0; }
-        html.ws-anim-out[data-ws-anim="blur"] .brand-container, html.ws-anim-out[data-ws-anim="blur"] .dock-wrapper { filter: blur(18px); opacity: 0; }
-        html.ws-anim-out[data-ws-anim="curtain"] .ws-fade.show { background: radial-gradient(circle, rgba(var(--accent-rgb), 0.35), rgba(2,6,23,0.92)); }
+        .brand-container, .dock-wrapper, #wLeft, #wRight { transition: transform 0.30s cubic-bezier(0.2, 0.85, 0.25, 1), opacity 0.26s ease, filter 0.26s ease; }
+        html.ws-anim-out[data-ws-anim="windows"] .brand-container, html.ws-anim-out[data-ws-anim="windows"] .dock-wrapper { transform: scale(0.90) translateY(14px); opacity: 0; filter: blur(6px); }
+        html.ws-anim-out[data-ws-anim="slide"] .brand-container, html.ws-anim-out[data-ws-anim="slide"] .dock-wrapper { transform: translateY(-30px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="slideDown"] .brand-container, html.ws-anim-out[data-ws-anim="slideDown"] .dock-wrapper { transform: translateY(30px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="slideH"] .brand-container, html.ws-anim-out[data-ws-anim="slideH"] .dock-wrapper { transform: translateX(-48px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="zoom"] .brand-container, html.ws-anim-out[data-ws-anim="zoom"] .dock-wrapper { transform: scale(1.10); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="zoomIn"] .brand-container, html.ws-anim-out[data-ws-anim="zoomIn"] .dock-wrapper { transform: scale(0.84); opacity: 0; filter: blur(4px); }
+        html.ws-anim-out[data-ws-anim="flip"] .brand-container { transform: perspective(900px) rotateY(24deg) scale(0.92); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="flipX"] .brand-container { transform: perspective(900px) rotateX(22deg) scale(0.92); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="blur"] .brand-container, html.ws-anim-out[data-ws-anim="blur"] .dock-wrapper { filter: blur(20px); opacity: 0; }
+        html.ws-anim-out[data-ws-anim="curtain"] .ws-fade.show { background: radial-gradient(circle, rgba(var(--accent-rgb), 0.38), rgba(2,6,23,0.92)); }
+        html.ws-anim-out[data-ws-anim="bounce"] .brand-container, html.ws-anim-out[data-ws-anim="bounce"] .dock-wrapper { transform: scale(0.86) translateY(-10px); opacity: 0; }
 
         .anim-eg-wrap { width: 100%; display: flex; flex-direction: column; gap: 10px; padding-top: 4px; }
         .anim-eg-win {
@@ -78,22 +96,34 @@
         .anim-eg-boot .mini-win { display: none; grid-template-columns: 1fr 1fr; gap: 2px; width: 18px; height: 18px; }
         .anim-eg-boot .mini-win i { background: #38bdf8; border-radius: 1px; display: block; }
         .anim-eg-boot[data-anim="windows"] .mini-win { display: grid; }
-        .anim-eg-boot.out[data-anim="fade"] { opacity: 0; }
+        .anim-eg-boot[data-anim="curtain"], .anim-eg-boot[data-anim="curtainH"] { clip-path: inset(0 0 0 0); }
+        .anim-eg-boot[data-anim="ripple"] { clip-path: circle(150% at 50% 50%); }
+        .anim-eg-boot[data-anim="wipe"] { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+        .anim-eg-boot[data-anim="diamond"] { clip-path: polygon(50% -60%, 160% 50%, 50% 160%, -60% 50%); }
+        .anim-eg-boot.out[data-anim="fade"] { opacity: 0; filter: blur(6px); }
         .anim-eg-boot.out[data-anim="windows"] { opacity: 0; transform: scale(1.15); filter: blur(5px); }
         .anim-eg-boot.out[data-anim="zoom"] { opacity: 0; transform: scale(1.3); }
         .anim-eg-boot.out[data-anim="slideUp"] { opacity: 0; transform: translateY(-100%); }
+        .anim-eg-boot.out[data-anim="slideDown"] { opacity: 0; transform: translateY(100%); }
         .anim-eg-boot.out[data-anim="curtain"] { opacity: 0; clip-path: inset(50% 0 50% 0); }
+        .anim-eg-boot.out[data-anim="curtainH"] { opacity: 0; clip-path: inset(0 50% 0 50%); }
         .anim-eg-boot.out[data-anim="ripple"] { opacity: 0; clip-path: circle(0% at 50% 50%); }
         .anim-eg-boot.out[data-anim="wipe"] { opacity: 0; clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%); }
+        .anim-eg-boot.out[data-anim="diamond"] { opacity: 0; clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
         .anim-eg-boot.out[data-anim="warp"] { opacity: 0; transform: scale(0.35) rotate(8deg); filter: blur(8px); }
-        .anim-eg-ws.out[data-anim="fade"] { opacity: 0; }
+        .anim-eg-boot.out[data-anim="flip3d"] { opacity: 0; transform: perspective(400px) rotateX(24deg) scale(0.9); filter: blur(4px); }
+        .anim-eg-ws.out[data-anim="fade"] { opacity: 0; filter: blur(6px); }
         .anim-eg-ws.out[data-anim="windows"] { opacity: 0; transform: scale(0.84) translateY(10px); filter: blur(4px); }
         .anim-eg-ws.out[data-anim="slide"] { opacity: 0; transform: translateY(-26px); }
+        .anim-eg-ws.out[data-anim="slideDown"] { opacity: 0; transform: translateY(26px); }
         .anim-eg-ws.out[data-anim="slideH"] { opacity: 0; transform: translateX(-36px); }
         .anim-eg-ws.out[data-anim="zoom"] { opacity: 0; transform: scale(1.16); }
+        .anim-eg-ws.out[data-anim="zoomIn"] { opacity: 0; transform: scale(0.76); filter: blur(4px); }
         .anim-eg-ws.out[data-anim="flip"] { opacity: 0; transform: perspective(400px) rotateY(32deg) scale(0.9); }
+        .anim-eg-ws.out[data-anim="flipX"] { opacity: 0; transform: perspective(400px) rotateX(28deg) scale(0.9); }
         .anim-eg-ws.out[data-anim="blur"] { opacity: 0; filter: blur(12px); }
         .anim-eg-ws.out[data-anim="curtain"] { opacity: 0; transform: scale(0.92); filter: drop-shadow(0 0 12px var(--accent)); }
+        .anim-eg-ws.out[data-anim="bounce"] { opacity: 0; transform: scale(0.78) translateY(-12px); }
 
         .safari-navbar {
             position: absolute; top: 40px; width: 55%; min-width: 400px;
@@ -647,6 +677,17 @@
         .ctx-menu, .folder-pop { animation: popIn 0.16s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
         .upd-log.open { animation: paneIn 0.2s ease; }
+        .home-countdown {
+            display: none; align-items: center; justify-content: center; gap: 8px;
+            margin: 12px auto 0; padding: 6px 15px; border-radius: 99px; width: fit-content;
+            font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.92); cursor: pointer;
+            background: rgba(var(--accent-rgb), 0.16); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.20); box-shadow: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.28);
+            transition: transform 0.18s ease, background 0.18s ease;
+        }
+        .home-countdown.show { display: inline-flex; animation: paneIn 0.25s ease; }
+        .home-countdown:hover { transform: translateY(-1px); background: rgba(var(--accent-rgb), 0.26); }
+        .home-countdown b { color: #fff; font-weight: 700; }
         .onboard-overlay { position: fixed; inset: 0; z-index: 6500; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; background: radial-gradient(circle at 30% 20%, rgba(var(--accent-rgb), 0.24), rgba(6, 9, 20, 0.92) 70%); backdrop-filter: blur(28px) saturate(160%); -webkit-backdrop-filter: blur(28px) saturate(160%); color: #fff; }
         .onboard-overlay.show { display: flex; }
         .onboard-card { width: 100%; max-width: 400px; padding: 26px 24px; border-radius: 26px; background: rgba(var(--accent-rgb), 0.10); background-image: linear-gradient(160deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.04) 48%, rgba(255,255,255,0.10) 100%); backdrop-filter: blur(24px) saturate(190%); -webkit-backdrop-filter: blur(24px) saturate(190%); border: 1px solid rgba(255,255,255,0.18); box-shadow: 0 24px 60px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.42); display: flex; flex-direction: column; gap: 14px; }
@@ -719,14 +760,38 @@
         }
         .ws-fade.show { opacity: 1; pointer-events: auto; }
         .upd-card {
-            position: fixed; top: 102px; left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 9400;
-            display: flex; align-items: center; gap: 14px; padding: 11px 16px; border-radius: 18px; color: #fff;
-            background: rgba(24, 28, 44, 0.82); backdrop-filter: blur(32px) saturate(190%); -webkit-backdrop-filter: blur(32px) saturate(190%);
-            border: 1px solid rgba(255,255,255,0.20); box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.28), 0 0 36px rgba(var(--accent-rgb), 0.25);
-            opacity: 0; pointer-events: none; transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-            max-width: min(440px, 92vw);
+            position: fixed; top: 102px; left: 50%; transform: translateX(-50%) translateY(-18px) scale(0.92); z-index: 9400;
+            display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 20px; color: #fff; overflow: hidden;
+            background: rgba(20, 24, 42, 0.78); backdrop-filter: blur(36px) saturate(200%); -webkit-backdrop-filter: blur(36px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 24px 60px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.34), 0 0 44px rgba(var(--accent-rgb), 0.30);
+            opacity: 0; filter: blur(8px); pointer-events: none;
+            transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), filter 0.42s ease;
+            width: max-content; max-width: 92vw;
         }
-        .upd-card.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        .upd-card.show { opacity: 1; filter: blur(0px); pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
+        .upd-card::after {
+            content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+            background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.95), rgba(255,255,255,0.85));
+            transform-origin: left; transform: scaleX(0);
+        }
+        .upd-card.show::after { animation: updBar 8s linear forwards; }
+        @keyframes updBar { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+        .upd-card.show .upd-ico { animation: updIcoPop 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.25); }
+        @keyframes updIcoPop { 0% { transform: scale(0.6) rotate(-18deg); } 100% { transform: scale(1) rotate(0); } }
+        .sparked-screen {
+            position: fixed; inset: 0; z-index: 9950; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle at 50% 45%, rgba(var(--accent-rgb), 0.34), rgba(2, 6, 23, 0.94) 68%);
+            backdrop-filter: blur(30px) saturate(180%); -webkit-backdrop-filter: blur(30px) saturate(180%);
+            color: #fff; pointer-events: none; opacity: 0; visibility: hidden;
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.52s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease, visibility 0.45s;
+        }
+        .sparked-screen.show { opacity: 1; visibility: visible; pointer-events: auto; transform: scale(1); filter: blur(0px); }
+        .sparked-screen.out { opacity: 0; transform: scale(1.08); filter: blur(12px); }
+        .sparked-star { width: 64px; height: 64px; margin-bottom: 16px; filter: drop-shadow(0 0 28px rgba(var(--accent-rgb), 0.85)); animation: sparkedPop 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+        .sparked-title { font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 800; letter-spacing: -2px; line-height: 1; background: linear-gradient(180deg, #fff 30%, rgba(255,255,255,0.68)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: sparkedUp 0.65s ease; }
+        .sparked-ver { margin-top: 10px; font-size: 13px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(255,255,255,0.68); animation: sparkedUp 0.78s ease; }
+        @keyframes sparkedPop { 0% { transform: scale(0.35) rotate(-28deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+        @keyframes sparkedUp { 0% { transform: translateY(14px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
         .upd-ico {
             width: 34px; height: 34px; border-radius: 10px; flex: none; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(155deg, rgba(var(--accent-rgb), 0.95), rgba(var(--accent-rgb), 0.65)); color: #fff;
@@ -734,7 +799,7 @@
         }
         .upd-ico svg { width: 17px; height: 17px; }
         .upd-txt { min-width: 0; flex: 1; }
-        .upd-title { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+        .upd-title { font-size: 13.5px; font-weight: 700; line-height: 1.25; white-space: nowrap; }
         .upd-sub { font-size: 12px; color: rgba(255,255,255,0.68); margin-top: 2px; }
         .upd-close {
             background: rgba(255,255,255,0.14); border: none; color: #fff; padding: 5px 11px; border-radius: 9px;
@@ -947,7 +1012,7 @@
         <div class="boot-win-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         <div class="boot-logo">SparkOS</div>
         <div class="boot-edition" id="bootEdition"></div>
-        <div class="boot-spinner"></div>
+        <svg class="boot-spark" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4 L39 25 L60 32 L39 39 L32 60 L25 39 L4 32 L25 25 Z" fill="currentColor"/></svg>
         <div class="boot-branding">Made by Viwin Jayaramanrani</div>
     </div>
 
@@ -958,6 +1023,11 @@
     <div class="ws-peek-card" id="wsPeekCard" aria-hidden="true"><b id="wsPeekName"></b><span id="wsPeekMeta"></span></div>
     <div class="ws-fade" id="wsFade" aria-hidden="true"></div>
     <div class="ws-icon-pop" id="wsIconPop" oncontextmenu="return false"></div>
+    <div class="sparked-screen" id="sparkedScreen" aria-hidden="true">
+        <svg class="sparked-star" viewBox="0 0 64 64"><path d="M32 4 L39 25 L60 32 L39 39 L32 60 L25 39 L4 32 L25 25 Z" fill="#fff"/></svg>
+        <div class="sparked-title">Sparked</div>
+        <div class="sparked-ver" id="sparkedVer">Version 12.9</div>
+    </div>
     <div class="upd-card" id="updCard" role="status" aria-live="polite">
         <div class="upd-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div>
         <div class="upd-txt">
@@ -975,6 +1045,7 @@
         <div class="greeting" id="greeting"></div>
         <h1 class="desktop-branding" id="desktopTitle">SparkOS</h1>
         <div id="widget-clock" class="center-clock">00:00:00 • Fri, Nov 6</div>
+        <div id="homeCountdown" class="home-countdown" title="Click to edit countdown" onclick="openSettings();showPane('home')"></div>
     </div>
 
     <div class="dock-wrapper">
@@ -1108,15 +1179,15 @@
 <div class="s-row"><div class="s-l"><div class="s-lab">Your own cursor</div><div class="s-sub">PNG, GIF, WebP, SVG or .cur · scaled to the size above · stays on this device</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('cursorFile').click()">Choose image…</button><button type="button" class="s-btn danger" id="cursorRemove" style="display:none" onclick="removeCustomCursor()">Remove</button><input type="file" id="cursorFile" accept="image/*,.cur" hidden onchange="pickCustomCursor(this.files[0]); this.value=''"></div></div>
 <div class="s-row"><div class="s-l"><div class="s-lab">Click point</div><div class="s-sub">Where your own cursor actually clicks</div></div><div class="s-c"><div class="seg" data-s="cursorHot"><button type="button" data-val="tl">Top-left</button><button type="button" data-val="center">Centre</button></div></div></div>
 </div>
-</section><section class="s-pane" id="pane-wallpaper"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><h2>Wallpaper</h2></div><div class="s-cap">Backgrounds</div><div class="s-card pad"><div class="presets" id="presetGrid"></div></div><div class="s-cap">Custom</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Custom image</div></div><div class="s-c"><input type="text" class="s-input wide" id="bgInput" placeholder="Paste an image link…"><button type="button" class="s-btn" onclick="applyCustomWallpaper()">Apply</button></div></div><div class="s-row" id="wallNoteRow" style="display:none"><div class="s-sub" id="wallNote"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">From your computer</div><div class="s-sub">Full quality · stays on this device (not in backups)</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('wallFile').click()">Choose image…</button><input type="file" id="wallFile" accept="image/*" hidden onchange="pickLocalWallpaper(this.files[0]); this.value=''"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Accent glow</div><div class="s-sub">A soft colour wash over the wallpaper. Turn off for the purest image.</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="accentGlow"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dim wallpaper</div><div class="s-sub">Darken the background for readability</div></div><div class="s-c"><input type="range" class="s-range" data-s="wallDim" data-unit="%" min="0" max="70"><span class="s-val" id="v_wallDim"></span></div></div></div></section><section class="s-pane" id="pane-home"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h2>Home Screen</h2></div><div class="s-cap">Text</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Title</div></div><div class="s-c"><input type="text" class="s-input" id="titleInput" placeholder="SparkOS" oninput="applyCustomTitle()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Greeting</div><div class="s-sub">e.g. “Good evening, Sam”</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="greeting"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Your name</div></div><div class="s-c"><input type="text" class="s-input" data-s="userName" placeholder="Optional" maxlength="20"></div></div></div><div class="s-cap">Clock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">24-hour clock</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="clock24"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show seconds</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showSeconds"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show date</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showDate"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Clock size</div></div><div class="s-c"><input type="range" class="s-range" data-s="clockSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_clockSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Title size</div></div><div class="s-c"><input type="range" class="s-range" data-s="titleSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_titleSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show title</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showTitle"><span></span></label></div></div></div></section><section class="s-pane" id="pane-dock"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><h2>Dock</h2></div><div class="s-cap">Dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Dock opacity</div></div><div class="s-c"><input type="range" class="s-range" id="dockOpacity" min="10" max="100" value="15" oninput="adjustDock()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock size</div></div><div class="s-c"><input type="range" class="s-range" id="dockScale" min="70" max="130" value="100" oninput="adjustDock()"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Auto-hide dock</div><div class="s-sub">Slides away; move your mouse to the bottom edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoHide"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lift icons on hover</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="hoverLift"><span></span></label></div></div></div></section><section class="s-pane" id="pane-apps"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><h2>Apps</h2></div><div class="s-cap">Add an app</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div></div><div class="s-c"><input type="text" class="s-input wide" id="appName" placeholder="e.g. Roblox"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Website</div><div class="s-sub">Logo is fetched automatically</div></div><div class="s-c"><input type="text" class="s-input wide" id="appUrl" placeholder="Optional — e.g. roblox.com"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Add to</div><div class="s-sub">Put it straight into a folder</div></div><div class="s-c"><select class="s-select" id="appFolderSel"></select></div></div><div class="s-row end"><button type="button" class="s-btn primary" onclick="sysAddApp()">Add App</button></div></div><div class="s-cap">Organise</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Folders</div><div class="s-sub">Group apps into one tidy icon in the dock</div></div><div class="s-c"><button type="button" class="s-btn" onclick="newFolder()">New folder…</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Dividers</div><div class="s-sub">A thin line that separates groups, like the one before the ⋮ button</div></div><div class="s-c"><button type="button" class="s-btn" onclick="addDivider()">Add divider</button></div></div></div><div class="s-cap">Your dock <span class="hint">· reorder, rename, group or delete</span></div><div class="s-card" id="appList"></div></section><section class="s-pane" id="pane-search"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><h2>Search</h2></div><div class="s-cap">Search bar</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Search engine</div></div><div class="s-c"><select class="s-select" data-s="engine"><option value="google">Google</option><option value="ddg">DuckDuckGo</option><option value="bing">Bing</option><option value="brave">Brave</option><option value="youtube">YouTube</option><option value="custom">Custom…</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Search recommendations</div><div class="s-sub">Show live Google suggestions, recent searches, and matching apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="searchSuggest"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Custom search URL</div><div class="s-sub">Pick “Custom…” above. Use %s where the search words go.</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="customEngine" placeholder="https://example.com/search?q=%s"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Custom search bangs</div><div class="s-sub">Type @tag + query in search (use %s for search words)</div></div><div class="s-c"><input type="text" class="s-input" id="bangTagIn" placeholder="@rbx" maxlength="10" style="width:74px"><input type="text" class="s-input wide" id="bangUrlIn" placeholder="https://www.roblox.com/discover/?Keyword=%s"><button type="button" class="s-btn primary" onclick="addCustomBang()">Add</button></div></div><div class="s-row" id="bangListRow" style="display:none"><div class="bang-list" id="bangList"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Safe search</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="safeSearch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open links in a new tab</div><div class="s-sub">Applies to searches and apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="newTab"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Start on the search bar</div><div class="s-sub">Ready to type when SparkOS opens, and typing anywhere jumps to it</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoFocus"><span></span></label></div></div></div></section><section class="s-pane" id="pane-shortcuts"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><h2>Shortcuts</h2></div><div class="s-cap">Keyboard</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Enable keyboard shortcuts</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="shortcuts"><span></span></label></div></div></div><div class="s-cap">Reference</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Focus the search bar</div></div><div class="s-c"><kbd>/</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Launch app 1 – 9</div></div><div class="s-c"><kbd>Alt</kbd><kbd>1–9</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open Settings</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>,</kbd></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">Command palette</div><div class="s-sub">Jump to any app, setting or action</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>K</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Close menus</div></div><div class="s-c"><kbd>Esc</kbd></div></div></div></section><section class="s-pane" id="pane-fun"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><h2>Effects & Fun</h2></div><div class="s-cap">Ambience</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Background effect</div></div><div class="s-c"><select class="s-select" data-s="effect"><option value="none">None</option><option value="snow">Snow</option><option value="stars">Twinkling stars</option><option value="fireflies">Fireflies</option><option value="rain">Rain</option><option value="bubbles">Bubbles</option><option value="aurora">Aurora</option><option value="meteors">Meteor shower</option><option value="matrix">Digital rain</option><option value="embers">Embers</option><option value="petals">Cherry blossoms</option><option value="sparkles">Sparkles</option><option value="ornaments">Ornaments</option><option value="orbit">Orbit</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Effect amount</div></div><div class="s-c"><input type="range" class="s-range" data-s="effectAmount" data-unit="%" min="10" max="100"><span class="s-val" id="v_effectAmount"></span></div></div></div><div class="s-cap">Playful</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Confetti on launch</div><div class="s-sub">A little burst when you open an app</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="confetti"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock bounce on launch</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="bounce"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Click sounds</div><div class="s-sub">Soft blips when you launch apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="sounds"><span></span></label></div></div></div><div class="s-cap">Boot &amp; Workspace Animations</div><div class="s-card">
-<div class="s-row"><div class="s-l"><div class="s-lab">Boot animation</div><div class="s-sub">Choose how SparkOS reveals your desktop on startup</div></div><div class="s-c"><select class="s-select" data-s="bootAnim" onchange="previewBootAnim(false)"><option value="fade">Smooth Fade</option><option value="windows">e.g. Windows Bloom</option><option value="zoom">Glass Zoom</option><option value="slideUp">Slide Up</option><option value="curtain">Split Curtain</option><option value="ripple">Accent Ripple</option><option value="wipe">Light Wipe</option><option value="warp">Star Warp</option></select><button type="button" class="s-btn" onclick="previewBootAnim(true)">Play fullscreen</button></div></div>
+</section><section class="s-pane" id="pane-wallpaper"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></div><h2>Wallpaper</h2></div><div class="s-cap">Backgrounds</div><div class="s-card pad"><div class="presets" id="presetGrid"></div></div><div class="s-cap">Custom</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Custom image</div></div><div class="s-c"><input type="text" class="s-input wide" id="bgInput" placeholder="Paste an image link…"><button type="button" class="s-btn" onclick="applyCustomWallpaper()">Apply</button></div></div><div class="s-row" id="wallNoteRow" style="display:none"><div class="s-sub" id="wallNote"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">From your computer</div><div class="s-sub">Full quality · stays on this device (not in backups)</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="document.getElementById('wallFile').click()">Choose image…</button><input type="file" id="wallFile" accept="image/*" hidden onchange="pickLocalWallpaper(this.files[0]); this.value=''"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Accent glow</div><div class="s-sub">A soft colour wash over the wallpaper. Turn off for the purest image.</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="accentGlow"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dim wallpaper</div><div class="s-sub">Darken the background for readability</div></div><div class="s-c"><input type="range" class="s-range" data-s="wallDim" data-unit="%" min="0" max="70"><span class="s-val" id="v_wallDim"></span></div></div></div></section><section class="s-pane" id="pane-home"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div><h2>Home Screen</h2></div><div class="s-cap">Text</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Title</div></div><div class="s-c"><input type="text" class="s-input" id="titleInput" placeholder="SparkOS" oninput="applyCustomTitle()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Greeting</div><div class="s-sub">e.g. “Good evening, Sam”</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="greeting"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Your name</div></div><div class="s-c"><input type="text" class="s-input" data-s="userName" placeholder="Optional" maxlength="20"></div></div></div><div class="s-cap">Clock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">24-hour clock</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="clock24"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show seconds</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showSeconds"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show date</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showDate"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Clock size</div></div><div class="s-c"><input type="range" class="s-range" data-s="clockSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_clockSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Title size</div></div><div class="s-c"><input type="range" class="s-range" data-s="titleSize" data-unit="%" min="40" max="250"><span class="s-val" id="v_titleSize"></span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Show title</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="showTitle"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Countdown under clock</div><div class="s-sub">Show a live countdown pill right below the home screen clock</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="countdownOn"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Countdown label</div></div><div class="s-c"><input type="text" class="s-input" data-s="countdownLabel" placeholder="e.g. SparkOS 13" maxlength="28"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Target date</div></div><div class="s-c"><input type="datetime-local" class="s-input" data-s="countdownDate"></div></div></div></section><section class="s-pane" id="pane-dock"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="5" rx="2.5"/><rect x="6" y="6" width="4" height="4" rx="1"/><rect x="14" y="6" width="4" height="4" rx="1"/></svg></div><h2>Dock</h2></div><div class="s-cap">Dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Dock opacity</div></div><div class="s-c"><input type="range" class="s-range" id="dockOpacity" min="10" max="100" value="15" oninput="adjustDock()"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock size</div></div><div class="s-c"><input type="range" class="s-range" id="dockScale" min="70" max="130" value="100" oninput="adjustDock()"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Auto-hide dock</div><div class="s-sub">Slides away; move your mouse to the bottom edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoHide"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lift icons on hover</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="hoverLift"><span></span></label></div></div></div></section><section class="s-pane" id="pane-apps"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg></div><h2>Apps</h2></div><div class="s-cap">Add an app</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div></div><div class="s-c"><input type="text" class="s-input wide" id="appName" placeholder="e.g. Roblox"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Website</div><div class="s-sub">Logo is fetched automatically</div></div><div class="s-c"><input type="text" class="s-input wide" id="appUrl" placeholder="Optional — e.g. roblox.com"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Add to</div><div class="s-sub">Put it straight into a folder</div></div><div class="s-c"><select class="s-select" id="appFolderSel"></select></div></div><div class="s-row end"><button type="button" class="s-btn primary" onclick="sysAddApp()">Add App</button></div></div><div class="s-cap">Organise</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Folders</div><div class="s-sub">Group apps into one tidy icon in the dock</div></div><div class="s-c"><button type="button" class="s-btn" onclick="newFolder()">New folder…</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Dividers</div><div class="s-sub">A thin line that separates groups, like the one before the ⋮ button</div></div><div class="s-c"><button type="button" class="s-btn" onclick="addDivider()">Add divider</button></div></div></div><div class="s-cap">Your dock <span class="hint">· reorder, rename, group or delete</span></div><div class="s-card" id="appList"></div></section><section class="s-pane" id="pane-search"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div><h2>Search</h2></div><div class="s-cap">Search bar</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Search engine</div></div><div class="s-c"><select class="s-select" data-s="engine"><option value="google">Google</option><option value="ddg">DuckDuckGo</option><option value="bing">Bing</option><option value="brave">Brave</option><option value="youtube">YouTube</option><option value="custom">Custom…</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Search recommendations</div><div class="s-sub">Show live Google suggestions, recent searches, and matching apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="searchSuggest"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Custom search URL</div><div class="s-sub">Pick “Custom…” above. Use %s where the search words go.</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="customEngine" placeholder="https://example.com/search?q=%s"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Custom search bangs</div><div class="s-sub">Type @tag + query in search (use %s for search words)</div></div><div class="s-c"><input type="text" class="s-input" id="bangTagIn" placeholder="@rbx" maxlength="10" style="width:74px"><input type="text" class="s-input wide" id="bangUrlIn" placeholder="https://www.roblox.com/discover/?Keyword=%s"><button type="button" class="s-btn primary" onclick="addCustomBang()">Add</button></div></div><div class="s-row" id="bangListRow" style="display:none"><div class="bang-list" id="bangList"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Safe search</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="safeSearch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open links in a new tab</div><div class="s-sub">Applies to searches and apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="newTab"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Start on the search bar</div><div class="s-sub">Ready to type when SparkOS opens, and typing anywhere jumps to it</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="autoFocus"><span></span></label></div></div></div></section><section class="s-pane" id="pane-shortcuts"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></svg></div><h2>Shortcuts</h2></div><div class="s-cap">Keyboard</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Enable keyboard shortcuts</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="shortcuts"><span></span></label></div></div></div><div class="s-cap">Reference</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Focus the search bar</div></div><div class="s-c"><kbd>/</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Launch app 1 – 9</div></div><div class="s-c"><kbd>Alt</kbd><kbd>1–9</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Open Settings</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>,</kbd></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">Command palette</div><div class="s-sub">Jump to any app, setting or action</div></div><div class="s-c"><kbd>Ctrl / ⌘</kbd><kbd>K</kbd></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Close menus</div></div><div class="s-c"><kbd>Esc</kbd></div></div></div></section><section class="s-pane" id="pane-fun"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg></div><h2>Effects & Fun</h2></div><div class="s-cap">Ambience</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Background effect</div></div><div class="s-c"><select class="s-select" data-s="effect"><option value="none">None</option><option value="snow">Snow</option><option value="stars">Twinkling stars</option><option value="fireflies">Fireflies</option><option value="rain">Rain</option><option value="bubbles">Bubbles</option><option value="aurora">Aurora</option><option value="meteors">Meteor shower</option><option value="matrix">Digital rain</option><option value="embers">Embers</option><option value="petals">Cherry blossoms</option><option value="sparkles">Sparkles</option><option value="ornaments">Ornaments</option><option value="orbit">Orbit</option></select></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Effect amount</div></div><div class="s-c"><input type="range" class="s-range" data-s="effectAmount" data-unit="%" min="10" max="100"><span class="s-val" id="v_effectAmount"></span></div></div></div><div class="s-cap">Playful</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Confetti on launch</div><div class="s-sub">A little burst when you open an app</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="confetti"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Dock bounce on launch</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="bounce"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Click sounds</div><div class="s-sub">Soft blips when you launch apps</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="sounds"><span></span></label></div></div></div><div class="s-cap">Boot &amp; Workspace Animations</div><div class="s-card">
+<div class="s-row"><div class="s-l"><div class="s-lab">Boot animation</div><div class="s-sub">Choose how SparkOS reveals your desktop on startup</div></div><div class="s-c"><select class="s-select" data-s="bootAnim" onchange="previewBootAnim(false)"><option value="fade">Smooth Glass Fade</option><option value="windows">e.g. Windows Bloom</option><option value="zoom">Glass Zoom</option><option value="slideUp">Slide Up</option><option value="slideDown">Slide Down</option><option value="curtain">Split Curtain</option><option value="curtainH">Side Curtains</option><option value="ripple">Accent Ripple</option><option value="wipe">Light Wipe</option><option value="diamond">Diamond Iris</option><option value="warp">Star Warp</option><option value="flip3d">3D Glass Flip</option></select><button type="button" class="s-btn" onclick="previewBootAnim(true)">Play fullscreen</button></div></div>
 <div class="s-row"><div class="anim-eg-wrap"><div class="anim-eg-win" id="bootEgWin" onclick="previewBootAnim(false)" title="Click to replay boot example"><span class="anim-eg-badge">e.g. Boot Window</span><div class="anim-eg-desk"><b>SparkOS</b><span>Desktop Ready</span></div><div class="anim-eg-boot" id="bootEgScreen"><div class="mini-win"><i></i><i></i><i></i><i></i></div><b style="font-size:13px">SparkOS</b></div><span class="anim-eg-hint">Click to preview</span></div></div></div>
-<div class="s-row"><div class="s-l"><div class="s-lab">Workspace switch animation</div><div class="s-sub">Choose the transition when switching workspaces</div></div><div class="s-c"><select class="s-select" data-s="wsAnim" onchange="previewWsAnim()"><option value="fade">Smooth Fade</option><option value="windows">e.g. Windows Task View</option><option value="slide">Vertical Slide</option><option value="slideH">Horizontal Slide</option><option value="zoom">Glass Zoom</option><option value="flip">3D Card Flip</option><option value="blur">Liquid Blur</option><option value="curtain">Accent Curtain</option></select><button type="button" class="s-btn" onclick="previewWsAnim()">Preview</button></div></div>
+<div class="s-row"><div class="s-l"><div class="s-lab">Workspace switch animation</div><div class="s-sub">Choose the transition when switching workspaces</div></div><div class="s-c"><select class="s-select" data-s="wsAnim" onchange="previewWsAnim()"><option value="fade">Smooth Fade</option><option value="windows">e.g. Windows Task View</option><option value="slide">Vertical Slide</option><option value="slideDown">Vertical Drop</option><option value="slideH">Horizontal Slide</option><option value="zoom">Glass Zoom</option><option value="zoomIn">Deep Dive</option><option value="flip">3D Card Flip</option><option value="flipX">3D Tilt Flip</option><option value="blur">Liquid Blur</option><option value="curtain">Accent Curtain</option><option value="bounce">Spring Pop</option></select><button type="button" class="s-btn" onclick="previewWsAnim()">Preview</button></div></div>
 <div class="s-row"><div class="anim-eg-wrap"><div class="anim-eg-win" id="wsEgWin" onclick="previewWsAnim()" title="Click to replay workspace switch example"><span class="anim-eg-badge">e.g. Workspace Window</span><div class="anim-eg-desk anim-eg-ws" id="wsEgDesk"><b id="wsEgTitle">Home</b><span id="wsEgSub">Workspace 1</span></div><span class="anim-eg-hint">Click to preview</span></div></div></div>
 </div><div class="s-cap">Feeling lucky?</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Surprise me</div><div class="s-sub">Random accent, wallpaper and effect</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="surpriseMe()">Shuffle my look</button></div></div></div></section><section class="s-pane" id="pane-themes"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2a10 10 0 1 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.3-.5-.8-.5-1.2 0-1.1.9-2 2-2h2.4a4.6 4.6 0 0 0 4.6-4.6C22 6 17.5 2 12 2z"/></svg></div><h2>Themes</h2></div>
 <div id="themesBody"><div class="s-cap">Save your current look</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Theme name</div><div class="s-sub">Saves accent, wallpaper, effect, icon style and shape, glass and dock</div></div><div class="s-c"><input type="text" class="s-input" id="themeName" placeholder="e.g. Night Owl" maxlength="24" onkeydown="if(event.key==='Enter') saveTheme()"><button type="button" class="s-btn primary" onclick="saveTheme()">Save</button></div></div></div>
 <div class="s-cap">Your themes <span class="hint">· up to 12</span></div><div class="s-card" id="themeList"></div></div>
-</section><section class="s-pane" id="pane-widgets"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><h2>Widgets</h2></div><div class="s-cap">On the desktop</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Virtual Notebook</div><div class="s-sub">Multi-page lined notebook saved per workspace</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notebook"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Notes</div><div class="s-sub">A sticky note that saves as you type</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notes"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Focus Timer</div><div class="s-sub">Pomodoro-style countdown with a chime</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="timer"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">To-do list</div><div class="s-sub">Tick tasks off; saved on this device</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="todo"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Quote of the day</div><div class="s-sub">A little nudge to start the day</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="quote"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar</div><div class="s-sub">Month view with today highlighted</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="calendar"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Weather</div><div class="s-sub">Search a city for the current conditions</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="weather"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock</div><div class="s-sub">Time in up to 4 places around the world</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="world"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock places</div><div class="s-sub">Comma-separated IANA zones, e.g. Europe/Paris, Asia/Dubai · Founders: up to 8 · up to 8 on Founders</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="zones" placeholder="America/New_York, Europe/London"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Stopwatch</div><div class="s-sub">With lap times</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="stopwatch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Widget layout</div><div class="s-sub">Drag any widget to move it anywhere. Double-click a widget’s title to send it back.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetWidgetLayout()">Reset layout</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Text sizes</div><div class="s-sub">Right-click any widget, or the clock, to change its title and text size separately.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetTextSizes()">Reset text sizes</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar week starts on</div></div><div class="s-c"><select class="s-select" data-s="weekStart"><option value="1">Monday</option><option value="0">Sunday</option></select></div></div></div></section><section class="s-pane" id="pane-workspaces"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><h2>Workspaces</h2></div><div class="s-cap">Add a workspace</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div><div class="s-sub">Each workspace has its own apps, widgets, notes, to-dos and wallpaper</div></div><div class="s-c"><input type="text" class="s-input wide" id="wsNewName" placeholder="e.g. Study, Gaming" maxlength="24" onkeydown="if(event.key==='Enter') createWorkspaceFromSettings()"><button type="button" class="s-btn primary" onclick="createWorkspaceFromSettings()">Add</button></div></div></div><div class="s-cap">Workspaces dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Auto-hide workspaces rail</div><div class="s-sub">Slides away; move your mouse to the left edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="wsAutoHide"><span></span></label></div></div></div><div class="s-cap">Your workspaces <span class="hint">· switch, set startup, rename, PIN-protect or delete</span></div><div class="s-card" id="wsSettingsList"></div></section><section class="s-pane" id="pane-system"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><h2>System</h2></div><div class="s-cap">Backup</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Export settings</div><div class="s-sub">Downloads a .zip with your background, fonts, text, diary, dock, and settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="exportSettings('dock')">Dock only</button><button type="button" class="s-btn" onclick="exportSettings('one')">This workspace</button><button type="button" class="s-btn primary" onclick="exportSettings('all')">Download all (.zip)</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Import settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="document.getElementById('importFile').click()">Choose file…</button><input type="file" id="importFile" accept=".zip,application/zip,application/json,.json" hidden onchange="importSettings(this.files[0])"></div></div></div><div class="s-cap">About</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Edition</div></div><div class="s-c"><span class="edition-pill big" id="editionPill2"></span></div></div><div class="s-row" id="founderNoRow" style="display:none"><div class="s-l"><div class="s-lab">Founder number</div><div class="s-sub">Shown on your Founders badge</div></div><div class="s-c"><input type="text" class="s-input mono" data-s="founderNo" placeholder="0001" maxlength="5"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">SparkOS</div><div class="s-sub">Made by Viwin Jayaramanrani</div></div><div class="s-c"><span class="s-val static" id="aboutVer">Version 12.7</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Apps in dock</div></div><div class="s-c"><span class="s-val static" id="aboutApps">0</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Update log</div><div class="s-sub">See what changed in recent SparkOS builds</div></div><div class="s-c"><button type="button" class="s-btn" id="updLogBtn" onclick="toggleUpdateLog()">View log</button></div></div><div class="upd-log" id="updLogBody"></div></div><div class="s-cap">Lock &amp; privacy</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Require unlock</div><div class="s-sub">Show a PIN lock when SparkOS opens (and when you lock it)</div></div><div class="s-c"><label class="sw"><input type="checkbox" id="lockEnabled" onchange="toggleLockEnabled(this.checked)"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Set / change PIN</div><div class="s-sub">4 digits · stored only on this device as a hash</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="promptSetPin()">Set PIN…</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Touch ID / Face ID (Default)</div><div class="s-sub">Prompts Touch ID / Face ID automatically first when unlocking SparkOS or protected workspaces</div></div><div class="s-c"><button type="button" class="s-btn" id="bioSetupBtn" onclick="setupBiometric()">Set up…</button><button type="button" class="s-btn danger" id="bioClearBtn" style="display:none" onclick="clearBiometric()">Remove</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lock now</div></div><div class="s-c"><button type="button" class="s-btn" onclick="lockSparkOS()">Lock SparkOS</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Hide (⌘⇧H)</div><div class="s-sub">Instantly switch to an unlocked workspace or hide widgets; press again to restore</div></div><div class="s-c"><button type="button" class="s-btn" onclick="toggleQuickHide()">Quick Hide</button></div></div></div><div class="s-cap">Danger zone</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Reset everything</div><div class="s-sub">Erases all apps and settings</div></div><div class="s-c"><button type="button" class="s-btn danger" onclick="resetSystemData()">Reset SparkOS…</button></div></div></div></section></main>
+</section><section class="s-pane" id="pane-widgets"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg></div><h2>Widgets</h2></div><div class="s-cap">On the desktop</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Virtual Notebook</div><div class="s-sub">Multi-page lined notebook saved per workspace</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notebook"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Notes</div><div class="s-sub">A sticky note that saves as you type</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="notes"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Focus Timer</div><div class="s-sub">Pomodoro-style countdown with a chime</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="timer"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">To-do list</div><div class="s-sub">Tick tasks off; saved on this device</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="todo"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Quote of the day</div><div class="s-sub">A little nudge to start the day</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="quote"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar</div><div class="s-sub">Month view with today highlighted</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="calendar"><span></span></label></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Weather</div><div class="s-sub">Search a city for the current conditions</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="weather"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock</div><div class="s-sub">Time in up to 4 places around the world</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="world"><span></span></label></div></div><div class="s-row" data-tier="2"><div class="s-l"><div class="s-lab">World clock places</div><div class="s-sub">Comma-separated IANA zones, e.g. Europe/Paris, Asia/Dubai · Founders: up to 8 · up to 8 on Founders</div></div><div class="s-c"><input type="text" class="s-input wide" data-s="zones" placeholder="America/New_York, Europe/London"></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Stopwatch</div><div class="s-sub">With lap times</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="stopwatch"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Widget layout</div><div class="s-sub">Drag any widget to move it anywhere. Double-click a widget’s title to send it back.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetWidgetLayout()">Reset layout</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Text sizes</div><div class="s-sub">Right-click any widget, or the clock, to change its title and text size separately.</div></div><div class="s-c"><button type="button" class="s-btn" onclick="resetTextSizes()">Reset text sizes</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Calendar week starts on</div></div><div class="s-c"><select class="s-select" data-s="weekStart"><option value="1">Monday</option><option value="0">Sunday</option></select></div></div></div></section><section class="s-pane" id="pane-workspaces"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="12" y="4" width="9" height="16" rx="2"/></svg></div><h2>Workspaces</h2></div><div class="s-cap">Add a workspace</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Name</div><div class="s-sub">Each workspace has its own apps, widgets, notes, to-dos and wallpaper</div></div><div class="s-c"><input type="text" class="s-input wide" id="wsNewName" placeholder="e.g. Study, Gaming" maxlength="24" onkeydown="if(event.key==='Enter') createWorkspaceFromSettings()"><button type="button" class="s-btn primary" onclick="createWorkspaceFromSettings()">Add</button></div></div></div><div class="s-cap">Workspaces dock</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Auto-hide workspaces rail</div><div class="s-sub">Slides away; move your mouse to the left edge to bring it back</div></div><div class="s-c"><label class="sw"><input type="checkbox" data-s="wsAutoHide"><span></span></label></div></div></div><div class="s-cap">Your workspaces <span class="hint">· switch, set startup, rename, PIN-protect or delete</span></div><div class="s-card" id="wsSettingsList"></div></section><section class="s-pane" id="pane-system"><div class="s-head"><div class="s-tile big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div><h2>System</h2></div><div class="s-cap">Backup</div><div class="s-card"><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Export settings</div><div class="s-sub">Downloads a .zip with your background, fonts, text, diary, dock, and settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="exportSettings('dock')">Dock only</button><button type="button" class="s-btn" onclick="exportSettings('one')">This workspace</button><button type="button" class="s-btn primary" onclick="exportSettings('all')">Download all (.zip)</button></div></div><div class="s-row" data-tier="1"><div class="s-l"><div class="s-lab">Import settings</div></div><div class="s-c"><button type="button" class="s-btn" onclick="document.getElementById('importFile').click()">Choose file…</button><input type="file" id="importFile" accept=".zip,application/zip,application/json,.json" hidden onchange="importSettings(this.files[0])"></div></div></div><div class="s-cap">About</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Edition</div></div><div class="s-c"><span class="edition-pill big" id="editionPill2"></span></div></div><div class="s-row" id="founderNoRow" style="display:none"><div class="s-l"><div class="s-lab">Founder number</div><div class="s-sub">Shown on your Founders badge</div></div><div class="s-c"><input type="text" class="s-input mono" data-s="founderNo" placeholder="0001" maxlength="5"></div></div><div class="s-row"><div class="s-l"><div class="s-lab">SparkOS</div><div class="s-sub">Made by Viwin Jayaramanrani</div></div><div class="s-c"><span class="s-val static" id="aboutVer">Version 12.9</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Apps in dock</div></div><div class="s-c"><span class="s-val static" id="aboutApps">0</span></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Replay “Sparked”</div><div class="s-sub">Preview the full-screen update animation and banner anytime</div></div><div class="s-c"><button type="button" class="s-btn" onclick="replaySparked()">Replay</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Update log</div><div class="s-sub">See what changed in recent SparkOS builds</div></div><div class="s-c"><button type="button" class="s-btn" id="updLogBtn" onclick="toggleUpdateLog()">View log</button></div></div><div class="upd-log" id="updLogBody"></div></div><div class="s-cap">Lock &amp; privacy</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Require unlock</div><div class="s-sub">Show a PIN lock when SparkOS opens (and when you lock it)</div></div><div class="s-c"><label class="sw"><input type="checkbox" id="lockEnabled" onchange="toggleLockEnabled(this.checked)"><span></span></label></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Set / change PIN</div><div class="s-sub">4 digits · stored only on this device as a hash</div></div><div class="s-c"><button type="button" class="s-btn primary" onclick="promptSetPin()">Set PIN…</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Touch ID / Face ID (Default)</div><div class="s-sub">Prompts Touch ID / Face ID automatically first when unlocking SparkOS or protected workspaces</div></div><div class="s-c"><button type="button" class="s-btn" id="bioSetupBtn" onclick="setupBiometric()">Set up…</button><button type="button" class="s-btn danger" id="bioClearBtn" style="display:none" onclick="clearBiometric()">Remove</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Lock now</div></div><div class="s-c"><button type="button" class="s-btn" onclick="lockSparkOS()">Lock SparkOS</button></div></div><div class="s-row"><div class="s-l"><div class="s-lab">Quick Hide (⌘⇧H)</div><div class="s-sub">Instantly switch to an unlocked workspace or hide widgets; press again to restore</div></div><div class="s-c"><button type="button" class="s-btn" onclick="toggleQuickHide()">Quick Hide</button></div></div></div><div class="s-cap">Danger zone</div><div class="s-card"><div class="s-row"><div class="s-l"><div class="s-lab">Reset everything</div><div class="s-sub">Erases all apps and settings</div></div><div class="s-c"><button type="button" class="s-btn danger" onclick="resetSystemData()">Reset SparkOS…</button></div></div></div></section></main>
         </div>
     </div>
     <script>
@@ -1165,7 +1236,7 @@
     window.addEventListener('DOMContentLoaded', () => { 
         if (typeof applyPreferredWorkspaceOnBoot === 'function') applyPreferredWorkspaceOnBoot();
         loadSettings(); focusSearch(); loadSavedApps(); loadSavedWallpaper(); loadSavedTitle(); initSystemClock(); loadDockStyles(); initLiquidGlass(); loadAccent(); sampleWallpaper(); initSettingsUI();
-        if (IS_XMAS) { setupChristmas2026(); cleanXmasLegacy(); }
+        if (IS_XMAS) { setupChristmas2026(); cleanXmasLegacy(); setTimeout(showXmasDiscontinuedNotice, 980); }
         
         // Rapid 400ms Launcher Transition Timeout Loop
         const bootEl = document.getElementById('bootScreen');
@@ -1174,8 +1245,9 @@
             const loader = document.getElementById('bootScreen');
             if(loader) {
                 loader.setAttribute('data-anim', settings.bootAnim || 'fade');
+                void loader.offsetWidth;
                 loader.classList.add('boot-out');
-                setTimeout(() => { loader.style.visibility = 'hidden'; }, 460);
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 540);
             }
             maybeShowLockOnBoot();
         }, 400);
@@ -1336,6 +1408,23 @@
         const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: settings.showSeconds ? '2-digit' : undefined, hourCycle: settings.clock24 ? 'h23' : 'h12' });
         const date = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         document.getElementById('widget-clock').innerText = time + (settings.showDate ? ' • ' + date : '');
+        const cdEl = document.getElementById('homeCountdown');
+        if (cdEl) {
+            if (!settings.countdownOn) {
+                cdEl.classList.remove('show');
+            } else {
+                const targetMs = settings.countdownDate ? Date.parse(settings.countdownDate) : (Date.now() + 14 * 86400000);
+                const diff = Math.max(0, (isNaN(targetMs) ? Date.now() : targetMs) - Date.now());
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                const lbl = (settings.countdownLabel || 'Countdown').trim();
+                const txt = diff === 0 ? 'Arrived!' : (d > 0 ? `${d}d ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m` : `${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`);
+                cdEl.innerHTML = '<b>' + escHtml(lbl) + '</b><span>· ' + txt + '</span>';
+                cdEl.classList.add('show');
+            }
+        }
         const g = document.getElementById('greeting');
         if (settings.greeting) {
             const h = now.getHours(), part = h < 5 ? 'Good Night' : h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
@@ -1788,7 +1877,7 @@ function reloadVisualIcons() {
     /* ===================== Settings, features & fun ===================== */
     const SETTINGS_KEY = 'viwinos_settings_v1';
     const DEFAULTS = {
-        greeting: true, userName: '', clock24: false, showSeconds: true, showDate: true, clockSize: 100,
+        greeting: true, userName: '', clock24: false, showSeconds: true, showDate: true, clockSize: 100, countdownOn: false, countdownLabel: 'SparkOS 13', countdownDate: '',
         titleSize: 100, showTitle: true, fontPreset: 'system', fontName: '', fontFile: '', fontScope: 'all', cursorStyle: 'default', cursorSize: 32, cursorHot: 'tl', cursorFile: '',
         autoHide: false, wsAutoHide: false, hoverLift: true, iconShape: 'squircle', wallDim: 0,
         engine: 'google', safeSearch: true, searchSuggest: true, newTab: true, shortcuts: true,
@@ -1926,9 +2015,10 @@ function reloadVisualIcons() {
             loader.style.visibility = 'visible';
             loader.style.opacity = '1';
             loader.setAttribute('data-anim', anim);
+            void loader.offsetWidth;
             setTimeout(() => {
                 loader.classList.add('boot-out');
-                setTimeout(() => { loader.style.visibility = 'hidden'; loader.classList.remove('boot-out'); }, 460);
+                setTimeout(() => { loader.style.visibility = 'hidden'; loader.classList.remove('boot-out'); }, 540);
             }, 420);
         }
     }
@@ -3356,32 +3446,81 @@ function reloadVisualIcons() {
             b.textContent = EDITION === 'standard' ? '' : (IS_FOUNDER ? 'Founders Edition' : (IS_XMAS ? 'Christmas 2026' : 'Beta'));
             b.className = 'boot-edition ' + (IS_XMAS ? 'christmas' : cls);
         }
-        const v = document.getElementById('aboutVer'); if (v) v.textContent = 'Version 12.7' + (EDITION === 'standard' ? '' : ' · ' + EDITION_LABEL);
+        const v = document.getElementById('aboutVer'); if (v) v.textContent = 'Version 12.9' + (EDITION === 'standard' ? '' : ' · ' + EDITION_LABEL);
         updateEditionTag();
-        if (EDITION === 'standard' && !document.getElementById('editionCard')) {
+        if (!document.getElementById('editionCard')) {
             const head = document.getElementById('pane-system').querySelector('.s-head');
             head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Editions</div><div class="s-card" id="editionCard"><div class="s-row"><div class="s-l"><div class="s-lab">Edition code</div><div class="s-sub">Have a code? Enter it to get the link to another edition of SparkOS.</div></div>'
+                '<div class="s-cap">Editions</div><div class="s-card" id="editionCard"><div class="s-row"><div class="s-l"><div class="s-lab">Edition code</div><div class="s-sub">Have a code? Enter it to unlock &amp; add another edition of SparkOS.</div></div>'
                 + '<div class="s-c"><input type="text" class="s-input mono" id="editionCode" placeholder="Code" maxlength="8" autocomplete="off" onkeydown="if(event.key===\'Enter\') redeemCode()"><button type="button" class="s-btn primary" onclick="redeemCode()">Redeem</button></div></div>'
                 + '<div class="s-row" id="editionMsgRow" style="display:none"><div class="s-sub" id="editionMsg"></div></div>'
                 + '</div>');
         }
-        if (IS_FOUNDER && !document.getElementById('founderEditionsCard')) {
-            const head = document.getElementById('pane-system').querySelector('.s-head');
-            head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Other Editions</div><div class="s-card" id="founderEditionsCard">'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Beta</div><div class="s-sub">Preview build · Code 1111</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/B/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Christmas 2026</div><div class="s-sub">Limited holiday edition · Code XMAS · ⚠️ Opening may reset wallpaper</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/" target="_blank" rel="noopener" style="text-decoration:none" onclick="return confirm(\'Warning: Launching Christmas 2026 on this same site can reset your current wallpaper and festive effects. Make a .zip backup first if needed. Open anyway?\')">Open</a></div></div>'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Standard</div><div class="s-sub">Base public edition</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '</div>');
+        renderOtherEditionsCard();
+    }
+    const DISCOVERED_EDITIONS_KEY = 'viwinos_unlocked_editions_v1';
+    const EDITION_CATALOG = {
+        standard: { name: 'SparkOS Standard', sub: 'Base public edition', url: 'https://viwinjr28-prog.github.io/Spark-Lock/N/' },
+        beta: { name: 'SparkOS Beta', sub: 'Preview build · Code 1111', url: 'https://viwinjr28-prog.github.io/Spark-Lock/B/' },
+        founders: { name: 'SparkOS Founders', sub: 'Founders Edition · Code 2828', url: 'https://viwinjr28-prog.github.io/Spark-Lock/F/' },
+        christmas: {
+            name: 'SparkOS Christmas 2026 · DISCONTINUED',
+            sub: 'DISCONTINUED · Limited holiday edition · Code XMAS · ⚠️ Opening may reset wallpaper',
+            url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/',
+            confirmMsg: 'DISCONTINUED: SparkOS Christmas 2026 has been discontinued and will no longer receive updates. Launching it on this same site can also reset your current wallpaper and festive effects. Make a .zip backup first if needed. Open anyway?'
         }
-        if ((EDITION === 'beta' || IS_XMAS) && !document.getElementById('editionReturnCard')) {
-            const head = document.getElementById('pane-system').querySelector('.s-head');
-            head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Editions</div><div class="s-card" id="editionReturnCard">'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Standard</div><div class="s-sub">Return to the base public edition</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '</div>');
+    };
+    function getDiscoveredEditions() {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(DISCOVERED_EDITIONS_KEY) || '[]'); } catch (e) { list = []; }
+        if (!Array.isArray(list)) list = [];
+        const base = ['standard', EDITION];
+        if (IS_FOUNDER) base.push('beta', 'christmas');
+        base.forEach(ed => { if (ed && EDITION_CATALOG[ed] && !list.includes(ed)) list.push(ed); });
+        try { localStorage.setItem(DISCOVERED_EDITIONS_KEY, JSON.stringify(list)); } catch (e) {}
+        return list;
+    }
+    function addDiscoveredEdition(ed) {
+        if (!ed || !EDITION_CATALOG[ed]) return;
+        const list = getDiscoveredEditions();
+        if (!list.includes(ed)) {
+            list.push(ed);
+            try { localStorage.setItem(DISCOVERED_EDITIONS_KEY, JSON.stringify(list)); } catch (e) {}
         }
+        renderOtherEditionsCard();
+    }
+    function renderOtherEditionsCard() {
+        const list = getDiscoveredEditions().filter(ed => ed !== EDITION && EDITION_CATALOG[ed]);
+        const oldCap = document.getElementById('otherEditionsCap');
+        const oldCard = document.getElementById('otherEditionsCard');
+        if (oldCap) oldCap.remove();
+        if (oldCard) oldCard.remove();
+        if (!list.length) return;
+        const edCard = document.getElementById('editionCard');
+        const anchor = edCard || (document.getElementById('pane-system') && document.getElementById('pane-system').querySelector('.s-head'));
+        if (!anchor) return;
+        const rows = list.map(ed => {
+            const info = EDITION_CATALOG[ed];
+            const oc = info.confirmMsg ? ' onclick="return confirm(\'' + info.confirmMsg.replace(/'/g, "\'") + '\')"' : '';
+            return '<div class="s-row"><div class="s-l"><div class="s-lab">' + escHtml(info.name) + '</div><div class="s-sub">' + escHtml(info.sub) + '</div></div>'
+                + '<div class="s-c"><a class="s-btn primary" href="' + info.url + '" target="_blank" rel="noopener" style="text-decoration:none"' + oc + '>Open</a></div></div>';
+        }).join('');
+        anchor.insertAdjacentHTML('afterend', '<div class="s-cap" id="otherEditionsCap">Other Editions</div><div class="s-card" id="otherEditionsCard">' + rows + '</div>');
+    }
+    function showXmasDiscontinuedNotice() {
+        if (!IS_XMAS || document.getElementById('xmasDiscNotice')) return;
+        const el = document.createElement('div');
+        el.id = 'xmasDiscNotice';
+        el.style.cssText = 'position:fixed;inset:0;z-index:9960;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:20px;';
+        el.innerHTML = '<div style="max-width:420px;width:100%;background:rgba(20,24,42,0.92);border:1px solid rgba(255,255,255,0.22);border-radius:22px;padding:24px;color:#fff;box-shadow:0 24px 64px rgba(0,0,0,0.6);text-align:center;font-family:inherit;">'
+            + '<div style="display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(239,68,68,0.22);border:1px solid rgba(239,68,68,0.5);color:#fca5a5;font-size:11px;font-weight:800;letter-spacing:1.2px;margin-bottom:12px;">DISCONTINUED</div>'
+            + '<div style="font-size:18px;font-weight:700;margin-bottom:8px;">SparkOS Christmas 2026 is Discontinued</div>'
+            + '<div style="font-size:13px;line-height:1.5;color:rgba(255,255,255,0.75);margin-bottom:18px;">This holiday edition no longer receives updates. Switch to Standard, Beta, or Founders for future updates.</div>'
+            + '<div style="display:flex;gap:10px;justify-content:center;">'
+            + '<a href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="padding:9px 16px;border-radius:11px;background:rgba(255,255,255,0.14);color:#fff;text-decoration:none;font-size:13px;font-weight:600;">Open Standard</a>'
+            + '<button type="button" onclick="document.getElementById(\'xmasDiscNotice\').remove()" style="padding:9px 18px;border-radius:11px;border:none;background:rgba(var(--accent-rgb),0.95);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">OK</button>'
+            + '</div></div>';
+        document.body.appendChild(el);
     }
     // Hide everything this edition doesn't include (no locked rows, no upsell)
     function applyLocks() {
@@ -3400,18 +3539,21 @@ function reloadVisualIcons() {
             }
         });
     }
-    /* ---------- edition codes (Standard): 1111 -> Beta, 2828 -> Founders ---------- */
+    /* ---------- edition codes (all editions): 1111 -> Beta, 2828 -> Founders, XMAS -> Christmas 2026 ---------- */
     const EDITION_CODES = {
         '1111': { ed: 'beta', name: 'Beta', url: 'https://viwinjr28-prog.github.io/Spark-Lock/B/' },
         '2828': { ed: 'founders', name: 'Founders', url: 'https://viwinjr28-prog.github.io/Spark-Lock/F/' },
-        'XMAS': { ed: 'christmas', name: 'Christmas 2026', url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/' }
+        'XMAS': { ed: 'christmas', name: 'Christmas 2026 (DISCONTINUED)', url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/' }
     };
     function redeemCode() {
         const inp = document.getElementById('editionCode'), row = document.getElementById('editionMsgRow'), msg = document.getElementById('editionMsg');
         const hit = EDITION_CODES[inp.value.trim().toUpperCase()]; row.style.display = '';
         if (!hit) { msg.className = 's-sub warn'; msg.textContent = 'That code isn’t valid. Check it and try again.'; return; }
+        addDiscoveredEdition(hit.ed);
         msg.className = 's-sub ok';
-        msg.innerHTML = 'Code accepted — SparkOS ' + escHtml(hit.name) + ': <a href="' + hit.url + '" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;font-weight:600">' + hit.url + '</a>';
+        const info = EDITION_CATALOG[hit.ed];
+        const oc = info && info.confirmMsg ? ' onclick="return confirm(\'' + info.confirmMsg.replace(/'/g, "\'") + '\')"' : '';
+        msg.innerHTML = 'Code accepted &amp; added to Other Editions — SparkOS ' + escHtml(hit.name) + ': <a href="' + hit.url + '" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;font-weight:600"' + oc + '>' + hit.url + '</a>';
         inp.value = '';
     }
     function buildEdition(ed) {
@@ -4669,7 +4811,7 @@ function reloadVisualIcons() {
         }
         syncLockUI();
     }
-    const SPARKOS_VERSION = '12.7';
+    const SPARKOS_VERSION = '12.9';
     const LAST_VER_KEY = 'viwinos_last_version';
     let pendingUpdateCheck = false;
     let updTimer = null;
@@ -4698,6 +4840,34 @@ function reloadVisualIcons() {
             } catch (e) {}
         });
     }
+    function playSparkedScreen(onDone) {
+        const sc = document.getElementById('sparkedScreen'), sv = document.getElementById('sparkedVer');
+        if (!sc) { if (onDone) onDone(); return; }
+        if (sv) sv.textContent = 'Version ' + SPARKOS_VERSION;
+        sc.classList.remove('out');
+        sc.classList.add('show');
+        setTimeout(() => {
+            sc.classList.add('out');
+            setTimeout(() => {
+                sc.classList.remove('show', 'out');
+                if (onDone) onDone();
+            }, 460);
+        }, 1250);
+    }
+    function replaySparked() {
+        closeSettings();
+        const nm = (settings.userName || '').trim() || 'N/A';
+        const t = document.getElementById('updTitle'), s = document.getElementById('updSub'), c = document.getElementById('updCard');
+        if (t) t.textContent = 'Your SparkOS System Has Sparked, ' + nm + '.';
+        if (s) s.textContent = 'Version ' + SPARKOS_VERSION;
+        playSparkedScreen(() => {
+            if (c) {
+                c.classList.add('show');
+                clearTimeout(updTimer);
+                updTimer = setTimeout(closeUpdateBanner, 8000);
+            }
+        });
+    }
     function checkSparkUpdate() {
         cleanXmasLegacy();
         const prev = localStorage.getItem(LAST_VER_KEY);
@@ -4710,23 +4880,22 @@ function reloadVisualIcons() {
         if (!c) return;
         if (t) t.textContent = 'Your SparkOS System Has Sparked, ' + nm + '.';
         if (s) s.textContent = 'Version ' + SPARKOS_VERSION;
-        c.classList.add('show');
-        clearTimeout(updTimer);
-        updTimer = setTimeout(closeUpdateBanner, 8000);
+        playSparkedScreen(() => {
+            c.classList.add('show');
+            clearTimeout(updTimer);
+            updTimer = setTimeout(closeUpdateBanner, 8000);
+        });
     }
     const UPD_LOG = [
-        { ver: '12.7', latest: true, items: [
-            'Fixed workspace switching triggering the Home edit PIN or reloading back to Startup.',
-            'Added Workspace Quick-Peek hover cards on the left rail and Alt + ↑ / ↓ switching.',
-            'Added Update Log (max 3 entries) and smooth UI animations everywhere.'
+        { ver: '12.9', latest: true, items: [
+            'Added a live Countdown pill integrated right under the Home Screen clock (with label & target date in Home Screen settings).',
+            'Added a Replay “Sparked” button in System settings to preview the update screen and banner anytime.'
         ]},
-        { ver: '12.6', items: [
-            'Added 8 boot animations & 8 workspace switch animations (with Windows-style options & preview windows).',
-            'Added first-boot PIN onboarding, Lock & Privacy box, and "This is your edition" login banner.',
-            'Added PIN removal warning, Home edit PIN lock, auto-hide rail, drag-to-reorder workspaces, and SparkOS repo dock icon.'
+        { ver: '12.8', items: [
+            'Expanded to 12 Boot and 12 Workspace Switch animations, fixed clip-path boot transitions, and added the “Sparked” update open screen.'
         ]},
-        { ver: '12.5', items: [
-            'Isolated workspaces, Touch ID / Face ID + PIN lock, Quick Hide (⌘⇧H), Virtual Notebook, and Liquid Glass polish.'
+        { ver: '12.7', items: [
+            'Fixed workspace switching Home PIN/reload bounce and added Quick-Peek rail cards, Alt + ↑ / ↓ switching, and Update Log.'
         ]}
     ];
     function renderUpdateLog() {
