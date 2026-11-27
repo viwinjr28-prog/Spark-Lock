@@ -617,6 +617,10 @@
         .boot-edition.christmas { color: #fca5a5; text-shadow: 0 0 18px rgba(239,68,68,0.55); }
         .edition-pill.christmas { color: #1c1203; background: linear-gradient(135deg, #fecaca, #ef4444 50%, #166534); box-shadow: 0 2px 12px rgba(239,68,68,0.45); }
         .edition-tag.xmas b { color: #fca5a5; }
+        @keyframes xmasCornerFlash {
+            0%, 100% { opacity: 1; box-shadow: 0 0 14px rgba(239,68,68,0.55); border-color: rgba(239,68,68,0.85); }
+            50% { opacity: 0.42; box-shadow: 0 0 4px rgba(239,68,68,0.18); border-color: rgba(239,68,68,0.28); }
+        }
         .edition-tag { display: none !important; }
 
         /* ===== Side Workspaces Rail (v8 · polished Liquid Glass) ===== */
@@ -766,7 +770,7 @@
             border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 24px 60px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.34), 0 0 44px rgba(var(--accent-rgb), 0.30);
             opacity: 0; filter: blur(8px); pointer-events: none;
             transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.48s cubic-bezier(0.16, 1, 0.3, 1), filter 0.42s ease;
-            max-width: min(460px, 92vw);
+            width: max-content; max-width: 92vw;
         }
         .upd-card.show { opacity: 1; filter: blur(0px); pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
         .upd-card::after {
@@ -799,7 +803,7 @@
         }
         .upd-ico svg { width: 17px; height: 17px; }
         .upd-txt { min-width: 0; flex: 1; }
-        .upd-title { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+        .upd-title { font-size: 13.5px; font-weight: 700; line-height: 1.25; white-space: nowrap; }
         .upd-sub { font-size: 12px; color: rgba(255,255,255,0.68); margin-top: 2px; }
         .upd-close {
             background: rgba(255,255,255,0.14); border: none; color: #fff; padding: 5px 11px; border-radius: 9px;
@@ -1236,7 +1240,7 @@
     window.addEventListener('DOMContentLoaded', () => { 
         if (typeof applyPreferredWorkspaceOnBoot === 'function') applyPreferredWorkspaceOnBoot();
         loadSettings(); focusSearch(); loadSavedApps(); loadSavedWallpaper(); loadSavedTitle(); initSystemClock(); loadDockStyles(); initLiquidGlass(); loadAccent(); sampleWallpaper(); initSettingsUI();
-        if (IS_XMAS) { setupChristmas2026(); cleanXmasLegacy(); }
+        if (IS_XMAS) { setupChristmas2026(); cleanXmasLegacy(); showXmasCornerBadge(); setTimeout(showXmasDiscontinuedNotice, 980); }
         
         // Rapid 400ms Launcher Transition Timeout Loop
         const bootEl = document.getElementById('bootScreen');
@@ -3443,35 +3447,105 @@ function reloadVisualIcons() {
         const sp = document.getElementById('editionPill'); if (sp) { if (EDITION === 'standard') sp.style.display = 'none'; else { sp.textContent = EDITION_LABEL; sp.className = 'edition-pill ' + pillCls; } }
         const p2 = document.getElementById('editionPill2'); if (p2) { p2.textContent = EDITION_LABEL; p2.className = 'edition-pill big ' + pillCls; }
         const b = document.getElementById('bootEdition'); if (b) {
-            b.textContent = EDITION === 'standard' ? '' : (IS_FOUNDER ? 'Founders Edition' : (IS_XMAS ? 'Christmas 2026' : 'Beta'));
+            b.textContent = EDITION === 'standard' ? '' : (IS_FOUNDER ? 'Founders Edition' : (IS_XMAS ? 'Christmas 2026 · DISCONTINUED' : 'Beta'));
             b.className = 'boot-edition ' + (IS_XMAS ? 'christmas' : cls);
         }
         const v = document.getElementById('aboutVer'); if (v) v.textContent = 'Version 12.9' + (EDITION === 'standard' ? '' : ' · ' + EDITION_LABEL);
         updateEditionTag();
-        if (EDITION === 'standard' && !document.getElementById('editionCard')) {
+        if (!document.getElementById('editionCard')) {
             const head = document.getElementById('pane-system').querySelector('.s-head');
             head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Editions</div><div class="s-card" id="editionCard"><div class="s-row"><div class="s-l"><div class="s-lab">Edition code</div><div class="s-sub">Have a code? Enter it to get the link to another edition of SparkOS.</div></div>'
+                '<div class="s-cap">Editions</div><div class="s-card" id="editionCard"><div class="s-row"><div class="s-l"><div class="s-lab">Edition code</div><div class="s-sub">Have a code? Enter it to unlock &amp; add another edition of SparkOS.</div></div>'
                 + '<div class="s-c"><input type="text" class="s-input mono" id="editionCode" placeholder="Code" maxlength="8" autocomplete="off" onkeydown="if(event.key===\'Enter\') redeemCode()"><button type="button" class="s-btn primary" onclick="redeemCode()">Redeem</button></div></div>'
                 + '<div class="s-row" id="editionMsgRow" style="display:none"><div class="s-sub" id="editionMsg"></div></div>'
                 + '</div>');
         }
-        if (IS_FOUNDER && !document.getElementById('founderEditionsCard')) {
-            const head = document.getElementById('pane-system').querySelector('.s-head');
-            head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Other Editions</div><div class="s-card" id="founderEditionsCard">'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Beta</div><div class="s-sub">Preview build · Code 1111</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/B/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Christmas 2026</div><div class="s-sub">Limited holiday edition · Code XMAS · ⚠️ Opening may reset wallpaper</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/" target="_blank" rel="noopener" style="text-decoration:none" onclick="return confirm(\'Warning: Launching Christmas 2026 on this same site can reset your current wallpaper and festive effects. Make a .zip backup first if needed. Open anyway?\')">Open</a></div></div>'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Standard</div><div class="s-sub">Base public edition</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '</div>');
+        renderOtherEditionsCard();
+    }
+    const DISCOVERED_EDITIONS_KEY = 'viwinos_unlocked_editions_v1';
+    const EDITION_CATALOG = {
+        standard: { name: 'SparkOS Standard', sub: 'Base public edition', url: 'https://viwinjr28-prog.github.io/Spark-Lock/N/' },
+        beta: { name: 'SparkOS Beta', sub: 'Preview build · Code 1111', url: 'https://viwinjr28-prog.github.io/Spark-Lock/B/' },
+        founders: { name: 'SparkOS Founders', sub: 'Founders Edition · Code 2828', url: 'https://viwinjr28-prog.github.io/Spark-Lock/F/' },
+        christmas: {
+            name: 'SparkOS Christmas 2026 · DISCONTINUED',
+            sub: 'DISCONTINUED · Limited holiday edition · Code XMAS · ⚠️ Opening may reset wallpaper',
+            url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/',
+            confirmMsg: 'DISCONTINUED: SparkOS Christmas 2026 has been discontinued and will no longer receive updates. Launching it on this same site can also reset your current wallpaper and festive effects. Make a .zip backup first if needed. Open anyway?'
         }
-        if ((EDITION === 'beta' || IS_XMAS) && !document.getElementById('editionReturnCard')) {
-            const head = document.getElementById('pane-system').querySelector('.s-head');
-            head.insertAdjacentHTML('afterend',
-                '<div class="s-cap">Editions</div><div class="s-card" id="editionReturnCard">'
-                + '<div class="s-row"><div class="s-l"><div class="s-lab">SparkOS Standard</div><div class="s-sub">Return to the base public edition</div></div><div class="s-c"><a class="s-btn primary" href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="text-decoration:none">Open</a></div></div>'
-                + '</div>');
+    };
+    function getDiscoveredEditions() {
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem(DISCOVERED_EDITIONS_KEY) || '[]'); } catch (e) { list = []; }
+        if (!Array.isArray(list)) list = [];
+        const base = ['standard', EDITION];
+        if (IS_FOUNDER) base.push('beta', 'christmas');
+        base.forEach(ed => { if (ed && EDITION_CATALOG[ed] && !list.includes(ed)) list.push(ed); });
+        try { localStorage.setItem(DISCOVERED_EDITIONS_KEY, JSON.stringify(list)); } catch (e) {}
+        return list;
+    }
+    function addDiscoveredEdition(ed) {
+        if (!ed || !EDITION_CATALOG[ed]) return;
+        const list = getDiscoveredEditions();
+        if (!list.includes(ed)) {
+            list.push(ed);
+            try { localStorage.setItem(DISCOVERED_EDITIONS_KEY, JSON.stringify(list)); } catch (e) {}
         }
+        renderOtherEditionsCard();
+    }
+    function renderOtherEditionsCard() {
+        const list = getDiscoveredEditions().filter(ed => ed !== EDITION && EDITION_CATALOG[ed]);
+        const oldCap = document.getElementById('otherEditionsCap');
+        const oldCard = document.getElementById('otherEditionsCard');
+        if (oldCap) oldCap.remove();
+        if (oldCard) oldCard.remove();
+        if (!list.length) return;
+        const edCard = document.getElementById('editionCard');
+        const anchor = edCard || (document.getElementById('pane-system') && document.getElementById('pane-system').querySelector('.s-head'));
+        if (!anchor) return;
+        const rows = list.map(ed => {
+            const info = EDITION_CATALOG[ed];
+            const oc = info.confirmMsg ? ' onclick="return confirm(\'' + info.confirmMsg.replace(/'/g, "\'") + '\')"' : '';
+            return '<div class="s-row"><div class="s-l"><div class="s-lab">' + escHtml(info.name) + '</div><div class="s-sub">' + escHtml(info.sub) + '</div></div>'
+                + '<div class="s-c"><a class="s-btn primary" href="' + info.url + '" target="_blank" rel="noopener" style="text-decoration:none"' + oc + '>Open</a></div></div>';
+        }).join('');
+        anchor.insertAdjacentHTML('afterend', '<div class="s-cap" id="otherEditionsCap">Other Editions</div><div class="s-card" id="otherEditionsCard">' + rows + '</div>');
+    }
+    function playXmasBeep() {
+        try {
+            blip(580, 0.08, true);
+            setTimeout(() => blip(420, 0.12, true), 130);
+        } catch (e) {}
+    }
+    function showXmasCornerBadge() {
+        if (!IS_XMAS || document.getElementById('xmasCornerBadge')) return;
+        const b = document.createElement('div');
+        b.id = 'xmasCornerBadge';
+        b.textContent = 'DISCONTINUED';
+        b.style.cssText = 'position:fixed;right:16px;bottom:14px;z-index:8500;padding:5px 12px;border-radius:999px;background:rgba(239,68,68,0.22);border:1px solid rgba(239,68,68,0.55);color:#fca5a5;font-size:11px;font-weight:800;letter-spacing:1.2px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:none;animation:xmasCornerFlash 1.25s ease-in-out infinite;';
+        document.body.appendChild(b);
+        setTimeout(() => {
+            playXmasBeep();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                const unlock = () => { playXmasBeep(); window.removeEventListener('pointerdown', unlock, true); };
+                window.addEventListener('pointerdown', unlock, true);
+            }
+        }, 950);
+    }
+    function showXmasDiscontinuedNotice() {
+        if (!IS_XMAS || document.getElementById('xmasDiscNotice')) return;
+        const el = document.createElement('div');
+        el.id = 'xmasDiscNotice';
+        el.style.cssText = 'position:fixed;inset:0;z-index:9960;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:20px;';
+        el.innerHTML = '<div style="max-width:420px;width:100%;background:rgba(20,24,42,0.92);border:1px solid rgba(255,255,255,0.22);border-radius:22px;padding:24px;color:#fff;box-shadow:0 24px 64px rgba(0,0,0,0.6);text-align:center;font-family:inherit;">'
+            + '<div style="display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(239,68,68,0.22);border:1px solid rgba(239,68,68,0.5);color:#fca5a5;font-size:11px;font-weight:800;letter-spacing:1.2px;margin-bottom:12px;">DISCONTINUED</div>'
+            + '<div style="font-size:18px;font-weight:700;margin-bottom:8px;">SparkOS Christmas 2026 is Discontinued</div>'
+            + '<div style="font-size:13px;line-height:1.5;color:rgba(255,255,255,0.75);margin-bottom:18px;">This holiday edition is discontinued and might only update every month or so. Switch to Standard, Beta, or Founders for regular updates.</div>'
+            + '<div style="display:flex;gap:10px;justify-content:center;">'
+            + '<a href="https://viwinjr28-prog.github.io/Spark-Lock/N/" target="_blank" rel="noopener" style="padding:9px 16px;border-radius:11px;background:rgba(255,255,255,0.14);color:#fff;text-decoration:none;font-size:13px;font-weight:600;">Open Standard</a>'
+            + '<button type="button" onclick="document.getElementById(\'xmasDiscNotice\').remove()" style="padding:9px 18px;border-radius:11px;border:none;background:rgba(var(--accent-rgb),0.95);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">OK</button>'
+            + '</div></div>';
+        document.body.appendChild(el);
     }
     // Hide everything this edition doesn't include (no locked rows, no upsell)
     function applyLocks() {
@@ -3490,18 +3564,21 @@ function reloadVisualIcons() {
             }
         });
     }
-    /* ---------- edition codes (Standard): 1111 -> Beta, 2828 -> Founders ---------- */
+    /* ---------- edition codes (all editions): 1111 -> Beta, 2828 -> Founders, XMAS -> Christmas 2026 ---------- */
     const EDITION_CODES = {
         '1111': { ed: 'beta', name: 'Beta', url: 'https://viwinjr28-prog.github.io/Spark-Lock/B/' },
         '2828': { ed: 'founders', name: 'Founders', url: 'https://viwinjr28-prog.github.io/Spark-Lock/F/' },
-        'XMAS': { ed: 'christmas', name: 'Christmas 2026', url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/' }
+        'XMAS': { ed: 'christmas', name: 'Christmas 2026 (DISCONTINUED)', url: 'https://viwinjr28-prog.github.io/Spark-Lock/Christmas%202026/' }
     };
     function redeemCode() {
         const inp = document.getElementById('editionCode'), row = document.getElementById('editionMsgRow'), msg = document.getElementById('editionMsg');
         const hit = EDITION_CODES[inp.value.trim().toUpperCase()]; row.style.display = '';
         if (!hit) { msg.className = 's-sub warn'; msg.textContent = 'That code isn’t valid. Check it and try again.'; return; }
+        addDiscoveredEdition(hit.ed);
         msg.className = 's-sub ok';
-        msg.innerHTML = 'Code accepted — SparkOS ' + escHtml(hit.name) + ': <a href="' + hit.url + '" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;font-weight:600">' + hit.url + '</a>';
+        const info = EDITION_CATALOG[hit.ed];
+        const oc = info && info.confirmMsg ? ' onclick="return confirm(\'' + info.confirmMsg.replace(/'/g, "\'") + '\')"' : '';
+        msg.innerHTML = 'Code accepted &amp; added to Other Editions — SparkOS ' + escHtml(hit.name) + ': <a href="' + hit.url + '" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline;font-weight:600"' + oc + '>' + hit.url + '</a>';
         inp.value = '';
     }
     function buildEdition(ed) {
@@ -4791,7 +4868,7 @@ function reloadVisualIcons() {
     function playSparkedScreen(onDone) {
         const sc = document.getElementById('sparkedScreen'), sv = document.getElementById('sparkedVer');
         if (!sc) { if (onDone) onDone(); return; }
-        if (sv) sv.textContent = 'Version ' + SPARKOS_VERSION;
+        if (sv) sv.textContent = 'Version ' + SPARKOS_VERSION + (IS_XMAS ? ' · DISCONTINUED' : '');
         sc.classList.remove('out');
         sc.classList.add('show');
         setTimeout(() => {
@@ -4807,7 +4884,7 @@ function reloadVisualIcons() {
         const nm = (settings.userName || '').trim() || 'N/A';
         const t = document.getElementById('updTitle'), s = document.getElementById('updSub'), c = document.getElementById('updCard');
         if (t) t.textContent = 'Your SparkOS System Has Sparked, ' + nm + '.';
-        if (s) s.textContent = 'Version ' + SPARKOS_VERSION;
+        if (s) s.textContent = 'Version ' + SPARKOS_VERSION + (IS_XMAS ? ' · DISCONTINUED' : '');
         playSparkedScreen(() => {
             if (c) {
                 c.classList.add('show');
@@ -4827,7 +4904,7 @@ function reloadVisualIcons() {
         const c = document.getElementById('updCard');
         if (!c) return;
         if (t) t.textContent = 'Your SparkOS System Has Sparked, ' + nm + '.';
-        if (s) s.textContent = 'Version ' + SPARKOS_VERSION;
+        if (s) s.textContent = 'Version ' + SPARKOS_VERSION + (IS_XMAS ? ' · DISCONTINUED' : '');
         playSparkedScreen(() => {
             c.classList.add('show');
             clearTimeout(updTimer);
